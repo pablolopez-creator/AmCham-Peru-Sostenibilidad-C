@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andina Foods (C) · La prueba del origen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16261f; --muted:#5d6b63; --line:#e3ddcf; --bg:#f6f2e8; --paper:#fffdf8;
+  --forest:#12372a; --forest2:#1f5a44; --gold:#d6a03c; --gold2:#f3d79a; --terra:#b5533c; --sky:#3f6f8f;
+  --ok:#2f7a4f; --okbg:#e6f3ea; --bad:#a7432f; --badbg:#f9e5df; --warn:#9a6a12; --warnbg:#fbf0d6;
+  --andina:#1f5a44; --asoc:#b5533c; --nm:#3f6f8f;
+  --r:16px; --shadow:0 10px 30px rgba(18,55,42,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;letter-spacing:-.01em;line-height:1.2;margin:0}
+button{font:inherit;cursor:pointer}
+input,select,textarea{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:30;background:rgba(255,253,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .in{max-width:1240px;margin:auto;display:flex;align-items:center;gap:18px;padding:10px 20px;flex-wrap:wrap}
+.brand{font-family:Fraunces,serif;font-weight:700;font-size:19px;color:var(--forest);white-space:nowrap}
+.brand b{color:var(--gold)}
+.steps{display:flex;gap:4px;flex:1;min-width:280px}
+.step{flex:1;border:0;background:#efe9da;color:var(--muted);padding:7px 6px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step.on{background:var(--forest);color:#fff}
+.step.done{background:#d8e7dc;color:var(--forest)}
+.step:disabled{opacity:.55;cursor:not-allowed}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;background:#efe9da;color:var(--muted)}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:#aaa}
+.pill.ok .dot{background:var(--ok)} .pill.warn .dot{background:var(--gold)} .pill.bad .dot{background:var(--bad)}
+.gear{border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 10px;font-size:13px;color:var(--forest)}
+main{max-width:1240px;margin:auto;padding:22px 20px 80px}
+.hero{border-radius:22px;padding:28px 30px;color:#fff;background:radial-gradient(1200px 300px at 85% -40%,rgba(214,160,60,.55),transparent 60%),linear-gradient(120deg,#0f2f24,#1f5a44);box-shadow:var(--shadow);margin-bottom:20px;position:relative;overflow:hidden}
+.hero .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);font-weight:700}
+.hero h1{font-size:clamp(26px,3.4vw,40px);margin:8px 0 8px;font-weight:600}
+.hero p{max-width:780px;color:#dfece4;margin:0}
+.hero.drought{background:radial-gradient(900px 300px at 80% -30%,rgba(255,196,100,.6),transparent 60%),linear-gradient(120deg,#5a2a17,#a2552d 55%,#d39b4a)}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:980px){.grid{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;margin-bottom:16px}
+.card h2{font-size:21px;margin-bottom:4px}
+.card h3{font-size:16px;margin:2px 0 8px}
+.sub{color:var(--muted);font-size:13.5px;margin:0 0 12px}
+.role{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 9px;color:#fff}
+.role.andina{background:var(--andina)} .role.asoc{background:var(--asoc)} .role.nm{background:var(--nm)} .role.todos{background:#6b6253}
+.field{margin:12px 0}
+.field label{display:flex;justify-content:space-between;gap:10px;font-weight:600;font-size:13.5px;margin-bottom:6px}
+.field label .v{font-family:Fraunces,serif;font-size:16px;color:var(--forest);white-space:nowrap}
+.field .hint{font-size:12px;color:var(--muted);margin-top:4px}
+input[type=range]{width:100%;accent-color:var(--forest)}
+input[type=number],input[type=text],select,textarea{width:100%;border:1px solid #cfc7b4;border-radius:10px;padding:9px 11px;background:#fff}
+textarea{min-height:70px;resize:vertical}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid #cfc7b4;background:#fff;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;color:var(--ink)}
+.seg button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+.seg button:disabled{opacity:.5;cursor:not-allowed}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border:1px solid var(--line);border-radius:10px;margin:6px 0;background:#fff;font-size:13.5px}
+.chk input{margin-top:3px;accent-color:var(--forest)}
+.chk small{display:block;color:var(--muted)}
+.lock{font-size:12px;color:var(--muted);background:#f1ece0;border-radius:10px;padding:8px 10px;margin:8px 0}
+.ratify{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.ratify button{border:2px dashed #cfc7b4;background:#fff;border-radius:12px;padding:9px 12px;font-weight:600;font-size:13px}
+.ratify button.on.andina{border-style:solid;border-color:var(--andina);background:#e6f0eb;color:var(--andina)}
+.ratify button.on.asoc{border-style:solid;border-color:var(--asoc);background:#f7e8e3;color:var(--asoc)}
+.ratify button.on.nm{border-style:solid;border-color:var(--nm);background:#e5eef4;color:var(--nm)}
+.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:700;background:var(--forest);color:#fff}
+.btn.gold{background:var(--gold);color:#2b1d02}
+.btn.ghost{background:#fff;border:1px solid #cfc7b4;color:var(--forest)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.actors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:640px){.actors{grid-template-columns:1fr}}
+.actor{border-radius:14px;padding:14px;border:1px solid var(--line);background:#fff}
+.actor .name{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.actor .big{font-family:Fraunces,serif;font-size:22px;margin:4px 0 2px}
+.st{font-size:12px;font-weight:700;border-radius:999px;padding:3px 9px;display:inline-block;margin-top:6px}
+.actor .kv{grid-template-columns:1fr;gap:0}
+.actor .kv span:nth-child(odd){font-size:11.5px;color:var(--muted);margin-top:6px}
+.actor .kv span:nth-child(even){text-align:left}
+.field label.chk{display:flex;justify-content:flex-start;font-weight:500}
+.st.ok{background:var(--okbg);color:var(--ok)} .st.bad{background:var(--badbg);color:var(--bad)} .st.warn{background:var(--warnbg);color:var(--warn)}
+.impacto{margin-top:12px;border-radius:14px;padding:14px;border:1px solid #cfd8c2;border-top:4px solid #6f7d3c;background:#f6f8ef}
+.impacto .name{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#56622c}
+.impacto .kv span:nth-child(even){white-space:nowrap}
+.scroll{overflow-x:auto}
+.clock{display:inline-block;margin:-6px 0 14px;padding:6px 14px;border-radius:999px;background:#e6f0eb;color:var(--andina);font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
+.clock.warn{background:#fbefd6;color:#9a6a12}.clock.over{background:#f7e3df;color:#a2402d}
+.pkgs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media(max-width:640px){.pkgs{grid-template-columns:1fr}}
+.pkg{text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:3px;font:inherit}
+.pkg b{font-size:14px}.pkg span{font-size:12px;color:var(--muted)}.pkg em{font-style:normal;font-size:12px;font-weight:700;color:var(--andina)}
+.pkg.on{border:2px solid var(--andina);background:#e6f0eb}
+.adv{padding:12px 16px}.advtoggle{background:none;border:0;font:inherit;font-weight:700;cursor:pointer;padding:0;text-align:left;color:var(--ink,#1d2a24)}
+.pista{border:1px solid #e3c98a;background:#fdf7e8}.pista h3{color:#9a6a12}
+.actor.andina{border-top:4px solid var(--andina)} .actor.asoc{border-top:4px solid var(--asoc)} .actor.nm{border-top:4px solid var(--nm)}
+.kv{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:13px;margin-top:8px}
+.kv span:nth-child(even){font-weight:600;text-align:right}
+.empty{border:2px dashed #d9d0bc;border-radius:16px;padding:30px;text-align:center;color:var(--muted)}
+.empty b{display:block;font-family:Fraunces,serif;font-size:19px;color:var(--forest);margin-bottom:6px}
+.note{border-radius:12px;padding:12px 14px;font-size:13.5px;margin:10px 0;background:#eef3ec}
+.note.warn{background:var(--warnbg);color:#5e4208} .note.bad{background:var(--badbg);color:#6b2617}
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:4px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:640px){.groups{grid-template-columns:1fr}}
+.group{border-radius:14px;padding:12px;border:1px solid var(--line);background:#fff}
+.group.out{background:#fbefe9;border-color:#e9c3b6}
+.group .h{font-weight:700;font-size:13px}
+.group .n{font-family:Fraunces,serif;font-size:20px}
+.funnel{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.bar{height:26px;border-radius:8px;display:flex;align-items:center;padding:0 10px;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;min-width:fit-content}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+.tbl th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tbl td.n{text-align:right;white-space:nowrap}
+.log{max-height:180px;overflow:auto;font-size:12px;color:var(--muted)}
+.overlay{position:fixed;inset:0;background:rgba(15,35,27,.55);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+.modal{background:var(--paper);border-radius:20px;max-width:980px;width:100%;padding:22px 24px;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 16px}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-weight:600;font-size:13px}
+.tabs button.on{background:var(--forest);color:#fff;border-color:var(--forest)}
+.params{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.params label{font-size:12px;font-weight:600;color:var(--muted)}
+.reveal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#d79a45,#7a3418 60%,#2c120a);color:#fff;text-align:center;padding:30px;animation:fade .6s ease}
+.reveal h1{font-size:clamp(34px,6vw,64px);margin:10px 0}
+.reveal .facts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:22px 0}
+.reveal .fact{background:rgba(0,0,0,.25);border-radius:16px;padding:14px 18px;min-width:150px}
+.reveal .fact b{display:block;font-family:Fraunces,serif;font-size:30px}
+@keyframes fade{from{opacity:0;transform:scale(1.02)}to{opacity:1;transform:none}}
+.timeline{display:flex;gap:6px;margin:14px 0 4px}
+.timeline div{flex:1;border-radius:10px;padding:8px;font-size:12px;text-align:center;background:rgba(255,255,255,.14)}
+.timeline div.now{background:var(--gold);color:#2b1d02;font-weight:700}
+.small{font-size:12.5px;color:var(--muted)}
+.howto{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.howto div{display:grid;grid-template-columns:84px 1fr;gap:12px;align-items:baseline;font-size:14px}
+.howto b small{display:block;font-weight:600;font-size:12px;color:var(--muted)}
+.howto b{color:var(--forest);white-space:nowrap}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+.foot{max-width:1240px;margin:auto;padding:0 20px 30px;font-size:12px;color:var(--muted)}
+.badge-n{display:inline-block;min-width:22px;text-align:center;border-radius:999px;background:#efe9da;font-size:11px;font-weight:700;padding:2px 6px;margin-left:6px}
+
+/* ---- Caso C ---- */
+.hero.audit{background:radial-gradient(1000px 300px at 85% -40%,rgba(120,170,210,.45),transparent 60%),linear-gradient(120deg,#13263a,#24476a 60%,#3f6f8f)}
+.hero.gate{background:radial-gradient(900px 300px at 80% -30%,rgba(214,160,60,.55),transparent 60%),linear-gradient(120deg,#2b1d02,#6b4a12 55%,#a87a2a)}
+.alts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:640px){.alts{grid-template-columns:1fr}}
+.alt{text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;cursor:pointer;font:inherit;color:inherit;display:flex;flex-direction:column;gap:6px}
+.alt.on{border:2px solid var(--forest);background:#eef5f0}
+.alt:disabled{opacity:.5;cursor:not-allowed}
+.alt .t{display:flex;gap:8px;align-items:baseline}
+.alt .t b{font-size:14px}
+.alt .cost{font-size:12px;font-weight:700;color:var(--forest);white-space:nowrap}
+.alt .ok{font-size:12px;color:var(--ok)} .alt .no{font-size:12px;color:var(--bad)} .alt .m{font-size:11.5px;color:var(--muted)}
+.alt .num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#efe9da;font-size:12px;font-weight:700;margin-right:6px}
+.alt.on .num{background:var(--forest);color:#fff}
+.budget{border-radius:14px;padding:14px;border:1px solid var(--line);background:#fff}
+.meter{height:12px;border-radius:999px;background:#efe9da;overflow:hidden;margin:6px 0 2px;position:relative}
+.meter i{display:block;height:100%;border-radius:999px;background:var(--forest)}
+.meter i.over{background:var(--bad)}
+.meter .lim{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.cardC{border-radius:18px;padding:22px 24px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);border-top:6px solid var(--gold)}
+.cardC .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--warn);font-weight:700}
+.cardC h2{font-size:26px;margin:6px 0 4px}
+.cardC p{margin:8px 0}
+.facts3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+@media(max-width:640px){.facts3{grid-template-columns:1fr}}
+.facts3 div{background:rgba(255,255,255,.12);border-radius:12px;padding:10px 12px}
+.facts3 b{display:block;font-family:Fraunces,serif;font-size:24px}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:6px 0}
+.check i{font-style:normal;font-weight:700;width:18px}
+.check.y i{color:var(--ok)} .check.n i{color:var(--bad)}
+.pitch{font-size:14px}
+.pitch dt{font-weight:700;color:var(--forest);margin-top:10px}
+.pitch dd{margin:2px 0 0}
+.fam3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+@media(max-width:760px){.fam3{grid-template-columns:1fr}}
+.fam3 .group{font-size:13px}
+.fam3 .group b{font-family:Fraunces,serif;font-size:19px;display:block;margin:2px 0 4px}
+.fam3 .tag{display:block;width:fit-content}
+.tag{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;margin-top:6px}
+.tag.fraude{background:var(--badbg);color:var(--bad)} .tag.registro{background:var(--warnbg);color:var(--warn)} .tag.inocente{background:var(--okbg);color:var(--ok)}
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <div class="brand">ANDINA <b>FOODS</b> · C</div>
+  <div class="steps" id="steps"></div>
+  <span class="pill" id="sync"><span class="dot"></span><span id="syncTxt">Registro local</span></span>
+  <button class="gear" id="openFac" type="button">Facilitador</button>
+</div></div>
+<main id="app"></main>
+<div class="foot">Caso ficticio con fines docentes · INCAE Business School · AmCham Perú. Cifras en soles constantes; los resultados son estimaciones del modelo del caso, no estados financieros.</div>
+<div id="layer"></div>
+<script>
+/* ================== Modelo del Caso C: la prueba del origen ================== */
+const DEFAULT_CFG = {
+  haFam: 2, rend: 1.8, minimo: 70, opcionRef: 20,
+  // Referencias económicas (Caso A): margen convencional de Andina = venta 8.700 − operación 1.500 − precio 6.000
+  pConv: 6000, ventaConv: 8700, opConv: 1500, opCert: 2100, nmRef: 11500, p35Ref: 7200,
+  margenRef: 1000, primaRef: 1000,
+  presupuesto: 60000, asocMax: 5000, nmMax: 20000, fondoPct: 0.5,
+  alts: {
+    a1: { inst: 55000, anual: 22000 }, a2: { inst: 28000, anual: 14000 }, a3: { inst: 20000, anual: 14400 },
+    a4: { inst: 5000, anual: 14000 }, a5: { inst: 18000, anual: 3000 }
+  },
+  telefonos: 7800, promotor: 9000,
+  tasas: { promotor: [0.94, 0.96], telefonos: [0.91, 0.95], ninguno: [0.82, 0.90], control: [0.90, 0.90] },
+  bonusCombo: 0.02, bonusMonitoreo: 0.02, tasaMax: 0.97, tasaDemora: 0.85, demoraPenal: 0.05,
+  salidaContagio: 2, salidaCuadernos: 3, salidaDatos: 2, haNoDeclarada: 0.6, haPasto: 1.5, haOcultar: 4,
+  famRef: 25,
+  modoPartida: 'comun', // Caso C siempre independiente, punto de partida común
+  minR0: 7, minR1: 12, minR2: 8, minR3: 7, minR4: 7, minCierre: 4,
+  pin: 'incae'
+};
+
+const ALTS = {
+  a1: { n: 1, nombre: 'Plataforma blockchain', corto: 'Blockchain', verifica: 'Registra de forma inalterable cada saco desde el acopio hasta el embarque y genera un código QR.', noVerifica: 'El origen se anota en el acopio según lo que declara quien entrega: no sabe de qué parcela salió el saco.', madurez: 'Proveedor nuevo: dos pilotos en café, ninguno a escala.' },
+  a2: { n: 2, nombre: 'Registro digital de campo con satélite', corto: 'Registro digital', verifica: 'Contorno GPS de cada parcela, cuaderno en una aplicación sin conexión, rendimiento estimado por satélite y alerta si una entrega supera lo que la parcela puede producir.', noVerifica: 'No verifica las prácticas regenerativas (eso sigue en manos del auditor). Exige que cada familia registre.', madurez: 'Proveedor peruano con 30 cooperativas de café y cacao.' },
+  a3: { n: 3, nombre: 'Huella de origen por análisis del grano', corto: 'Huella de origen', verifica: 'Detecta quinua de otras regiones o países comparando cada lote de embarque con una biblioteca de referencia.', noVerifica: 'No distingue entre la quinua de una parcela de Cabana y la de un vecino de la misma zona.', madurez: 'Tecnología madura, usada en café, miel y quinua.' },
+  a4: { n: 4, nombre: 'Control interno reforzado (sin tecnología avanzada)', corto: 'Control interno', verifica: 'Inspector, visita antes de la cosecha para estimar el rendimiento de cada parcela, sacos precintados en la chacra, cupo por familia e inspección cruzada.', noVerifica: 'Registros en papel. Depende de que vecinos inspeccionen a vecinos y parientes.', madurez: 'Lo puede operar la asociación desde el primer mes.' },
+  a5: { n: 5, nombre: 'Módulo de sensores de humedad (complementario)', corto: 'Sensores', verifica: 'Mide si las parcelas regenerativas retienen más humedad que las convencionales vecinas.', noVerifica: 'No verifica el origen. La evidencia es comparable tras dos campañas.', madurez: 'Diez sensores y una estación meteorológica.' }
+};
+
+const CARTAS = {
+  c1: { titulo: 'Inalterable no significa verdadero', regla: 'Ninguna alternativa verifica el origen por parcela, o no hay plan de corrección para las tres familias.' },
+  c2: { titulo: 'La asamblea', regla: 'La mesa expulsó a las tres familias.' },
+  c3: { titulo: 'Once cuadernos vacíos', regla: 'Registro digital sin apoyo a la adopción.' },
+  c4: { titulo: '¿De quién son los datos?', regla: 'Los datos quedaron en manos de Andina, sin acuerdo o con permiso para usarlos en precios.' },
+  c5: { titulo: 'Lo que vio el satélite', regla: 'Registro digital con apoyo a la adopción.' },
+  c6: { titulo: 'Lo que midieron los sensores', regla: 'Verificación por parcela más el módulo de sensores.' },
+  c7: { titulo: 'Vecinos que inspeccionan a vecinos', regla: 'Control interno sin registro digital.' },
+  agua: { titulo: 'El agua de Juliaca', regla: 'Carta comodín: cualquier mesa, como segunda carta.' }
+};
+
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const milesM = n => Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const SM = n => (n < 0 ? '−' : '') + 'S/' + milesM(n);
+const r1d = x => Math.round(x * 10) / 10;
+
+/* Punto de partida a partir del estado exportado por la simulación A/B (version andina-ab-1.0) */
+function puntoReferencia(cfg) {
+  return { origen: 'referencia', fam: cfg.famRef, continua: false, monitoreo: false, saldoFondo: 0, prima: cfg.primaRef,
+    margen: cfg.margenRef, opcion: cfg.opcionRef, referencia: true, nota: ['Términos de referencia: NordMarkt aceptó un año 4 de prueba con 25 familias y las condiciones de su carta.'] };
+}
+
+/* Punto de partida común e independiente del Caso C */
+function puntoComun(cfg) {
+  return { origen: 'comun', fam: cfg.famRef, continua: true, monitoreo: false,
+    saldoFondo: 0, prima: cfg.primaRef, margen: cfg.margenRef,
+    opcion: cfg.opcionRef, referencia: false,
+    nota: ['Punto de partida independiente del Caso C: 25 familias, prima y margen de S/1.000 por tonelada y opción de 20 t de NordMarkt.'] };
+}
+
+function asignarCarta(d) {
+  const vp = !!(d.alts.a2 || d.alts.a4);
+  if (!vp || d.familias === 'ninguna') return 'c1';
+  if (d.familias === 'expulsion') return 'c2';
+  if (d.alts.a2 && d.apoyo === 'ninguno') return 'c3';
+  if (d.alts.a4 && !d.alts.a2) return 'c7';
+  if (d.datos !== 'asociacion' || (d.usos && d.usos.precios)) return 'c4';
+  if (d.sensores) return 'c6';
+  return 'c5';
+}
+
+/* Cálculo completo. card = null (antes de la compuerta) o { id, ops: {...}, detener, agua } */
+function calcC(cfg, st, d0, card) {
+  const d = JSON.parse(JSON.stringify(d0));
+  d.usos = d.usos || {};
+  const ops = (card && card.ops) || {};
+  const id = card ? card.id : null;
+  const notas = [], alertas = [];
+  const A = cfg.alts;
+  let vp = !!(d.alts.a2 || d.alts.a4);
+  let familias = d.familias;
+  let datos = d.datos, usaPrecios = !!d.usos.precios;
+  let acepta = vp && familias !== 'ninguna';
+  let demora4 = null, penal4 = 0;
+  let migra = false, promotor5 = false, ocultar = false, escala = null, afirmacion = null;
+  let haAdj4 = 0, haAdj5 = 0, salidas5 = 0, readmite = false;
+  let addA4 = false;
+
+  if (id === 'c1') {
+    if (ops.c1 === 'redisenar') {
+      if (!vp) { addA4 = true; d.alts.a4 = true; demora4 = cfg.tasaDemora; notas.push('Rediseño: control interno agregado con meses de retraso.'); }
+      else { penal4 = cfg.demoraPenal; notas.push('Rediseño: plan de corrección presentado tarde.'); }
+      if (familias === 'ninguna') familias = 'verificacion';
+      vp = true; acepta = true;
+    } else { acepta = false; }
+  }
+  if (id === 'c2') { if (ops.c2 === 'readmitir') { readmite = true; familias = 'verificacion'; } else salidas5 += cfg.salidaContagio; }
+  if (id === 'c3') { if (ops.c3 === 'promotor') promotor5 = true; else salidas5 += cfg.salidaCuadernos; }
+  if (id === 'c4') { if (ops.c4 === 'clausula') { datos = 'asociacion'; usaPrecios = false; } else salidas5 += cfg.salidaDatos; }
+  if (id === 'c5') {
+    if (ops.parcela === 'incorporar') haAdj5 += cfg.haNoDeclarada;
+    if (ops.pasto === 'excluir') { haAdj4 -= cfg.haPasto; haAdj5 -= cfg.haPasto; }
+    if (ops.pasto === 'ocultar') { ocultar = true; haAdj5 -= cfg.haOcultar; alertas.push('El auditor encontró la siembra en pasto comunal: los lotes de esas dos familias quedan fuera en el año 5.'); }
+  }
+  if (id === 'c6') { afirmacion = ops.afirmacion || null; escala = ops.escala || null; if (afirmacion === 'empaque') alertas.push('El área legal de NordMarkt bloqueó la afirmación en el empaque: una campaña no basta.'); }
+  if (id === 'c7' && ops.c7 === 'migrar') migra = true;
+  const detener = !!(card && card.detener);
+  const agua = card && card.agua ? card.agua : null;
+
+  const digital = !!d.alts.a2, digital5 = digital || migra;
+  /* ---- costos ---- */
+  const sel = ['a1', 'a2', 'a3', 'a4'].filter(k => d.alts[k]).concat(d.sensores ? ['a5'] : []);
+  let y4 = 0, y5 = 0, inst = 0;
+  sel.forEach(k => { inst += A[k].inst; y4 += A[k].inst + A[k].anual; y5 += A[k].anual; });
+  if (digital) {
+    if (d.apoyo === 'telefonos') { y4 += cfg.telefonos; inst += cfg.telefonos; }
+    if (d.apoyo === 'promotor') { y4 += cfg.promotor; y5 += cfg.promotor; }
+  }
+  if (promotor5) y5 += cfg.promotor;
+  if (migra) y5 += A.a2.inst + A.a2.anual + cfg.promotor;
+  if (detener) y5 = 0;
+  const total = y4 + y5;
+
+  /* ---- financiamiento ---- */
+  const nmBase = ['a1', 'a2'].filter(k => d.alts[k]).reduce((s, k) => s + A[k].inst + A[k].anual + (detener ? 0 : A[k].anual), 0)
+    + (migra && !detener ? A.a2.inst + A.a2.anual : 0);
+  const nmElegible = d.nmAcceso ? Math.min(cfg.nmMax, nmBase) : 0;
+  const fondoBase = ['a2', 'a4', 'a5'].filter(k => d.alts[k] || (k === 'a5' && d.sensores)).reduce((s, k) => s + A[k].inst, 0) + (migra && !detener ? A.a2.inst : 0);
+  const fondoElegible = datos === 'asociacion' && !usaPrecios ? cfg.fondoPct * fondoBase : 0;
+  let nm = clamp(d.aporteNM || 0, 0, nmElegible);
+  let fondo = fondoElegible;
+  let asoc = clamp(d.aporteAsoc || 0, 0, cfg.asocMax);
+  let cont = clamp(d.usoFondo || 0, 0, st.saldoFondo || 0);
+  // nadie paga más de lo que cuesta la solución
+  let resto = total;
+  fondo = Math.min(fondo, resto); resto -= fondo;
+  nm = Math.min(nm, resto); resto -= nm;
+  cont = Math.min(cont, resto); resto -= cont;
+  asoc = Math.min(asoc, resto); resto -= asoc;
+  const andina = resto;
+  if (andina > cfg.presupuesto) alertas.push(`Andina paga ${SM(andina)}: supera los ${SM(cfg.presupuesto)} y requiere volver al directorio.`);
+
+  /* ---- tasas de evidencia ---- */
+  let base = null;
+  if (d.alts.a2) { base = cfg.tasas[d.apoyo].slice(); if (d.alts.a4) base = base.map(x => x + cfg.bonusCombo); }
+  else if (d.alts.a4) base = cfg.tasas.control.slice();
+  let r4 = null, r5 = null;
+  if (base) {
+    r4 = demora4 != null ? demora4 : base[0] - penal4;
+    r5 = base[1];
+    if (promotor5) r5 = cfg.tasas.promotor[1] + (d.alts.a4 ? cfg.bonusCombo : 0);
+    if (migra) r5 = cfg.tasas.promotor[0] + cfg.bonusCombo;
+    if (st.monitoreo) { r4 += cfg.bonusMonitoreo; r5 += cfg.bonusMonitoreo; }
+    r4 = Math.min(r4, cfg.tasaMax); r5 = Math.min(r5, cfg.tasaMax);
+  }
+
+  /* ---- familias, hectáreas y toneladas ---- */
+  const fam0 = st.fam;
+  const f4 = Math.max(0, fam0 - (d.familias === 'expulsion' ? 3 : 0));
+  let f5 = readmite ? fam0 : Math.max(0, f4 - salidas5);
+  if (detener) f5 = 0;
+  const h4 = Math.max(0, f4 * cfg.haFam + haAdj4);
+  const h5 = detener ? 0 : Math.max(0, f5 * cfg.haFam + haAdj5);
+  const cap4 = cfg.minimo + st.opcion, cap5 = digital5 ? cfg.minimo + st.opcion : cfg.minimo;
+  const est = base != null; // hay estimación técnica
+  const okNM = card ? acepta : est; // antes de la compuerta se proyecta como si NordMarkt aceptara
+  const t4 = okNM && r4 != null ? Math.min(h4 * cfg.rend * r4, cap4) : 0;
+  const t5 = okNM && r5 != null && !detener ? Math.min(h5 * cfg.rend * r5, cap5) : 0;
+  if (card && !acepta) alertas.push('NordMarkt mantiene la revisión reforzada: sin declaración regenerativa y con la alianza en riesgo.');
+  if (okNM && t4 > 0 && t4 < cfg.minimo) alertas.push(`Año 4 bajo el mínimo de ${cfg.minimo} t: NordMarkt puede terminar la alianza.`);
+  if (okNM && !detener && t5 > 0 && t5 < cfg.minimo) alertas.push(`Año 5 bajo el mínimo de ${cfg.minimo} t: NordMarkt puede terminar la alianza.`);
+  if (detener) notas.push('La mesa detuvo el piloto al final del año 4.');
+
+  const usoFondoAndina = cont / 2, usoFondoAsoc = cont / 2;
+  const contribucion = (t4 + t5) * st.margen - andina - usoFondoAndina;
+  const primaTotal = (t4 + t5) * st.prima;
+  const primaNeta = primaTotal - asoc - usoFondoAsoc;
+  const famProm = f5 > 0 ? (f4 + f5) / 2 : f4;
+  const enJuego = 2 * Math.min(fam0 * cfg.haFam * cfg.rend, cfg.minimo + st.opcion);
+
+  /* ---- impacto ---- */
+  const inclusion = (digital && (d.apoyo !== 'ninguno' || promotor5)) || (d.alts.a4 && !digital);
+  const gobernanza = datos === 'asociacion' && !usaPrecios && familias === 'verificacion' && !ocultar;
+  const ambiental = (d.sensores && afirmacion !== 'empaque') || (!!agua && agua !== 'nada');
+  const pts = [inclusion, gobernanza, ambiental].filter(Boolean).length;
+
+  return {
+    sel, digital, digital5, vp, acepta, est, okNM,
+    costos: { inst, y4, y5, total },
+    fin: { nm, nmElegible, fondo, fondoElegible, asoc, cont, andina, sobre: andina > cfg.presupuesto },
+    tasas: [r4, r5], caps: [cap4, cap5], fam: [f4, f5], ha: [h4, h5], t: [t4, t5],
+    contribucion, primaTotal, primaNeta, primaFam: famProm ? primaNeta / famProm : 0, enJuego,
+    impacto: { pts, inclusion, gobernanza, ambiental }, alertas, notas,
+    final: { familias, datos, usaPrecios, migra, promotor5, readmite, ocultar, escala, afirmacion, detener, agua, addA4 }
+  };
+}
+
+if (typeof module !== 'undefined') module.exports = { DEFAULT_CFG, ALTS, CARTAS, calcC, asignarCarta, puntoReferencia, puntoComun };
+
+</script>
+<script>
+(function () {
+const $ = id => document.getElementById(id);
+const miles = n => { const s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); return (n < 0 ? '−' : '') + s; };
+const S = n => (n < 0 ? '−S/' : 'S/') + miles(Math.abs(n)).replace('−', '');
+const Ssigned = n => (n > 0 ? '+' : n < 0 ? '−' : '') + 'S/' + miles(Math.abs(n));
+const t1 = n => (Math.round(n * 10) / 10).toFixed(1).replace('.', ',');
+const pct = x => x == null ? '—' : Math.round(x * 100) + '%';
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } },
+  del(k) { try { localStorage.removeItem(k); } catch (e) { } }
+};
+const clone = o => JSON.parse(JSON.stringify(o));
+function deepMerge(a, b) { const o = clone(a); for (const k in (b || {})) { if (b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && o[k] && typeof o[k] === 'object') o[k] = deepMerge(o[k], b[k]); else o[k] = b[k]; } return o; }
+
+/* Para no configurar cada computadora: pegue aquí la URL del Web App y la clave antes de distribuir el archivo */
+const PRESET = { sheetUrl: 'https://script.google.com/macros/s/AKfycbz77ElrjvbzXmyUYXExwx6tpYD77xkNeo-JUuLUnSh7P8X4SMc-46U_pb6GsUxkXUY0/exec', clave: 'INCAE2027' };
+
+let CFG = deepMerge(DEFAULT_CFG, store.get('andinaC.cfg', {}));
+CFG.modoPartida = 'comun';
+let CONN = Object.assign({ sheetUrl: PRESET.sheetUrl || '', clave: PRESET.clave || '' }, store.get('andinaC.conn', {}));
+if (PRESET.sheetUrl && !store.get('andinaC.conn', {}).sheetUrl) CONN.sheetUrl = PRESET.sheetUrl;
+
+const D_INICIAL = { alts: { a1: false, a2: false, a3: false, a4: false }, sensores: false, apoyo: 'promotor', descartada: '', porQue: '',
+  aporteAsoc: 0, usoFondo: 0, aporteNM: 0, nmAcceso: false, datos: '', usos: { traz: true, planif: false, precios: false, marketing: false },
+  familias: '', dueno: '', compuerta: '', efectoTipo: '', efecto: '' };
+const MANUAL_INICIAL = { fam: 25, continua: true, monitoreo: false, saldoFondo: 0, prima: 1000, margen: 1000, opcion: 20 };
+function estadoNuevo() {
+  return { mesa: '', reps: { andina: '', asoc: '', nm: '' }, ronda: 0, max: 0, start: null,
+    startUI: { modo: 'comun', texto: '', msg: '', manual: clone(MANUAL_INICIAL) },
+    d: clone(D_INICIAL), ratif: { r1: {}, r2: {}, r3: {} }, carta: { id: null, ops: {}, detener: false, agua: null, aguaOn: false, vista: false, forzada: false },
+    calc: { r3: null }, comite: { presento: '', veredicto: '', condicion: '', voto: '' }, cierre: { verifico: '', capturo: '', distinto: '' },
+    revelado: false, log: [], tInicio: {}, intentos: { r3: 0 } };
+}
+let ST = deepMerge(estadoNuevo(), store.get('andinaC.estado', {}));
+function save() { store.set('andinaC.estado', ST); }
+function log(txt) { ST.log.unshift({ t: new Date().toISOString(), txt }); ST.log = ST.log.slice(0, 120); }
+
+/* ================== registro en Google Sheets ================== */
+let queue = store.get('andinaC.cola', []);
+function setSync(cls, txt) { const p = $('sync'); p.className = 'pill ' + cls; $('syncTxt').textContent = txt; }
+function refreshSyncPill() {
+  if (!CONN.sheetUrl) setSync('', 'Registro solo local');
+  else if (queue.length) setSync('warn', queue.length + ' pendiente' + (queue.length > 1 ? 's' : ''));
+  else setSync('ok', 'Registrando en Sheets');
+}
+function enviar(evento, extra) {
+  const payload = { clave: CONN.clave, sesion: 'C', mesa: ST.mesa, ronda: ST.ronda, evento, fecha: new Date().toISOString(),
+    resumen: resumen(), estado: estadoFinal(), extra: extra || null };
+  queue.push(payload); store.set('andinaC.cola', queue); flush();
+}
+let flushing = false;
+async function flush() {
+  refreshSyncPill();
+  if (!CONN.sheetUrl || flushing || !queue.length) return;
+  flushing = true;
+  try {
+    while (queue.length) {
+      await fetch(CONN.sheetUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(queue[0]) });
+      queue.shift(); store.set('andinaC.cola', queue);
+    }
+    setSync('ok', 'Registrado en Sheets');
+  } catch (e) { setSync('bad', 'Sin conexión · ' + queue.length + ' en cola'); }
+  flushing = false;
+}
+window.addEventListener('online', flush);
+setInterval(flush, 30000);
+
+/* ================== cálculo ================== */
+const altsTxt = d => ['a1', 'a2', 'a3', 'a4'].filter(k => d.alts[k]).map(k => ALTS[k].n).join(' + ') + (d.sensores ? ' + 5' : '');
+const dProy = () => { const d = clone(ST.d); if (!d.datos) d.datos = 'asociacion'; if (!d.familias) d.familias = 'verificacion'; return d; };
+const proyeccion = () => ST.start ? calcC(CFG, ST.start, dProy(), null) : null;
+const cartaActual = () => ST.carta.id ? { id: ST.carta.id, ops: ST.carta.ops, detener: ST.carta.detener, agua: ST.carta.aguaOn ? ST.carta.agua : null } : null;
+function resumen() {
+  const d = ST.d, r = ST.calc.r3, s = ST.start || {};
+  const out = { familiasInicio: s.fam, origen: s.origen, referencia: !!s.referencia, alternativas: altsTxt(d) || '—', apoyo: d.alts.a2 ? d.apoyo : '—',
+    datos: d.datos || '—', tresFamilias: d.familias || '—', carta: ST.carta.id, decisionCarta: JSON.stringify(ST.carta.ops), detener: ST.carta.detener,
+    agua: ST.carta.aguaOn ? ST.carta.agua : null, veredicto: ST.comite.veredicto || null };
+  if (r) Object.assign(out, { costoTotal: Math.round(r.costos.total), pagaAndina: Math.round(r.fin.andina), t4: +r.t[0].toFixed(1), t5: +r.t[1].toFixed(1),
+    contribucionAndina: Math.round(r.contribucion), familias5: r.fam[1], primaNeta: Math.round(r.primaNeta), impacto: r.impacto.pts, aceptaNM: r.acepta });
+  return out;
+}
+function estadoFinal() {
+  const r = ST.calc.r3;
+  return { version: 'andina-c-1.0', mesa: ST.mesa, rondaAlcanzada: ST.max, puntoPartida: ST.start, plan: ST.d, carta: ST.carta,
+    resultado: r ? { aceptaNordMarkt: r.acepta, costos: r.costos, financiamiento: r.fin, tasas: r.tasas, toneladas: r.t.map(x => +x.toFixed(1)),
+      familias: r.fam, contribucionAndina: Math.round(r.contribucion), primaTotal: Math.round(r.primaTotal), primaNeta: Math.round(r.primaNeta),
+      impacto: r.impacto, alertas: r.alertas, final: r.final } : null,
+    comite: ST.comite, reflexion: ST.cierre };
+}
+
+/* ================== reloj ================== */
+const MIN_RONDA = () => [CFG.minR0, CFG.minR1, CFG.minR2, CFG.minR3, CFG.minR4, CFG.minCierre];
+function marcarInicio(i) { if (!ST.tInicio['r' + i]) ST.tInicio['r' + i] = Date.now(); }
+const minutosEn = i => ST.tInicio['r' + i] ? (Date.now() - ST.tInicio['r' + i]) / 60000 : 0;
+function textoReloj(i) {
+  const tot = MIN_RONDA()[i]; if (!tot || !ST.tInicio['r' + i]) return '';
+  const rest = tot * 60 - Math.floor(minutosEn(i) * 60);
+  if (rest <= 0) return { cls: 'over', txt: `Tiempo sugerido cumplido (${tot} min)` };
+  const m = Math.floor(rest / 60), s = String(rest % 60).padStart(2, '0');
+  return { cls: rest <= 120 ? 'warn' : '', txt: `Quedan ${m}:${s} de ${tot} min` };
+}
+function reloj(i) { const t = textoReloj(i); return t ? `<div class="clock ${t.cls}" id="reloj">${t.txt}</div>` : ''; }
+setInterval(() => { const el = document.getElementById('reloj'); if (el) { const t = textoReloj(ST.ronda); if (t) { el.textContent = t.txt; el.className = 'clock ' + t.cls; } } }, 1000);
+
+/* ================== componentes ================== */
+const ROLES = { andina: 'Andina', asoc: 'Asociación', nm: 'NordMarkt', todos: 'Mesa' };
+const roleTag = r => `<span class="role ${r}">${ROLES[r]}</span>`;
+function getPath(p) { return p.split('.').reduce((o, k) => (o == null ? undefined : o[k]), ST); }
+function setPath(p, v) { const ks = p.split('.'); let o = ST; ks.slice(0, -1).forEach(k => { if (o[k] == null) o[k] = {}; o = o[k]; }); o[ks[ks.length - 1]] = v; }
+const FMT = { soles: v => S(+v), fam: v => v + ' familias', ton: v => v + ' t' };
+Object.entries(FMT).forEach(([k, f]) => Object.defineProperty(f, 'name', { value: k }));
+function slider(path, label, min, max, step, fmt, hint, disabled) {
+  const v = getPath(path);
+  return `<div class="field"><label for="f_${path}"><span>${label}</span><span class="v" id="v_${path}">${fmt(v)}</span></label>
+  <input type="range" id="f_${path}" data-path="${path}" data-fmt="${fmt.name}" min="${min}" max="${max}" step="${step}" value="${v}" ${disabled ? 'disabled' : ''}>
+  ${hint ? `<div class="hint">${hint}</div>` : ''}</div>`;
+}
+function seg(path, label, opts, disabled, hint) {
+  const v = getPath(path);
+  return `<div class="field">${label ? `<label><span>${label}</span></label>` : ''}<div class="seg">${opts.map(([val, txt]) =>
+    `<button type="button" data-seg="${path}" data-val='${JSON.stringify(val)}' class="${JSON.stringify(v) === JSON.stringify(val) ? 'on' : ''}" ${disabled ? 'disabled' : ''}>${txt}</button>`).join('')}</div>${hint ? `<div class="hint">${hint}</div>` : ''}</div>`;
+}
+function chk(path, label, small, disabled) {
+  return `<label class="chk"><input type="checkbox" data-chk="${path}" ${getPath(path) ? 'checked' : ''} ${disabled ? 'disabled' : ''}><span>${label}${small ? `<small>${small}</small>` : ''}</span></label>`;
+}
+function txt(path, label, ph, area) {
+  const v = esc(getPath(path) || '');
+  return `<div class="field"><label><span>${label}</span></label>${area ? `<textarea data-text="${path}" placeholder="${esc(ph || '')}">${v}</textarea>` : `<input type="text" data-text="${path}" value="${v}" placeholder="${esc(ph || '')}">`}</div>`;
+}
+function ratifyBar(r, roles) {
+  const rr = ST.ratif[r] || {};
+  return `<div class="ratify">${roles.map(x => `<button type="button" class="${x} ${rr[x] ? 'on' : ''}" data-ratif="${r}.${x}">${rr[x] ? '✓ ' : ''}${ROLES[x]} ${rr[x] ? 'ratificó' : 'ratifica'}</button>`).join('')}</div>`;
+}
+const allRatified = (r, roles) => roles.every(x => (ST.ratif[r] || {})[x]);
+const R3 = ['andina', 'asoc', 'nm'];
+
+/* ================== navegación ================== */
+const STEPS = ['Inicio', '1 · Elegir', '2 · Reglas', '3 · Compuerta', '4 · Comité', 'Cierre'];
+function renderSteps() {
+  $('steps').innerHTML = STEPS.map((s, i) => `<button type="button" class="step ${i === ST.ronda ? 'on' : i <= ST.max ? 'done' : ''}" data-go="${i}" ${i > ST.max ? 'disabled' : ''}>${s}</button>`).join('');
+}
+function go(i) { ST.ronda = i; ST.max = Math.max(ST.max, i); marcarInicio(i); save(); render(); window.scrollTo(0, 0); }
+function render() {
+  renderSteps(); refreshSyncPill();
+  const r = ST.ronda;
+  $('app').innerHTML = r === 0 ? vInicio() : r === 1 ? vR1() : r === 2 ? vR2() : r === 3 ? vR3() : r === 4 ? vR4() : vCierre();
+  if (r === 3 && ST.carta.id && !ST.carta.vista) revelarCarta();
+}
+
+/* ================== Inicio ================== */
+function startResumen(s) {
+  if (!s) return `<div class="empty"><b>Punto de partida disponible</b>El Caso C utiliza condiciones comunes para todas las mesas.</div>`;
+  return `<div class="note"><b>Punto de partida independiente del Caso C</b><br>${(s.nota || []).map(esc).join('<br>')}</div>
+  <div class="kv"><span>Familias al empezar el año 4</span><span>${s.fam} (${s.fam * CFG.haFam} ha)</span>
+  <span>Prima para los productores por tonelada certificada</span><span>${S(s.prima)}</span>
+  <span>Margen adicional de Andina por tonelada regenerativa</span><span>${S(s.margen)}</span>
+  <span>Compra de NordMarkt</span><span>Mínimo ${CFG.minimo} t${s.opcion ? ` + opción de ${s.opcion} t` : ''}</span></div>`;
+}
+function vInicio() {
+  CFG.modoPartida = 'comun';
+  if (!ST.start || ST.start.origen !== 'comun') { ST.start = puntoComun(CFG); save(); }
+  const panelHTML = '';
+  const subMesa = 'El nombre identifica a la mesa en el registro de esta simulación.';
+  const modoP = 'comun';
+  return `<section class="hero audit"><div class="eyebrow">Simulación ejecutiva · Tecnología para mover la frontera · Caso C</div>
+  <h1>La prueba del origen</h1>
+  <p>Tres familias entregaron más quinua de la que sus parcelas podían producir. NordMarkt exige verificar el origen de cada lote, por parcela, antes de la cosecha del año 4. Ustedes deciden cómo verificarlo, quién lo paga y qué hacen con lo que los datos revelen.</p>
+  <div class="facts3"><div><b>11,0 t</b>entregadas por tres familias</div><div><b>8,1 t</b>lo que sus 6 ha podían producir</div><div><b>6 meses</b>para un sistema que NordMarkt acepte</div></div>
+  <div class="timeline">${['Año 3 · auditoría', 'Año 4 · seis meses para verificar', 'Año 4 · cosecha', 'Año 5'].map((x, i) => `<div class="${i === 0 ? 'now' : ''}">${x}</div>`).join('')}</div></section>
+  ${reloj(0)}
+  <div class="grid"><div>
+    <div class="card"><h2>Identifiquen su mesa</h2><p class="sub">${subMesa}</p>
+      <div class="field"><label>Mesa</label><input type="text" id="mesa" value="${esc(ST.mesa)}" placeholder="Ej.: Mesa 3"></div>
+      <div class="row">${['andina', 'asoc', 'nm'].map(x => `<div class="field" style="flex:1;min-width:150px"><label>${roleTag(x)}</label><input type="text" data-rep="${x}" value="${esc(ST.reps[x])}" placeholder="Nombre(s)"></div>`).join('')}</div>
+    </div>
+    ${panelHTML}
+    <div class="card">${modoP === 'comun' ? '<h2>Punto de partida</h2>' : ''}${startResumen(ST.start)}
+      <div class="row" style="margin-top:12px"><button class="btn gold" id="empezar" type="button" ${ST.mesa.trim() && ST.start ? '' : 'disabled'}>Comenzar la ronda 1</button></div></div>
+  </div><div>
+    <div class="card"><h2>La carta de NordMarkt</h2>
+      <p class="sub">Firmada por el área legal, no por compras.</p>
+      <div class="check y"><i>1</i><span>Cada lote con declaración regenerativa del año 4 debe tener su <b>origen verificado por parcela antes del acopio</b>.</span></div>
+      <div class="check y"><i>2</i><span>Los datos deben poder ser <b>auditados por un tercero</b>.</span></div>
+      <div class="check y"><i>3</i><span>Un <b>plan de corrección</b> para las tres familias, con un procedimiento justo.</span></div>
+      <div class="check y"><i>4</i><span>Para el año 5, cualquier volumen por encima de ${CFG.minimo} t exige <b>registros digitales</b> auditables a distancia.</span></div>
+      <div class="note bad">Sin un sistema aceptado, NordMarkt suspende la declaración regenerativa y evalúa terminar la alianza.</div></div>
+    <div class="card"><h2>Cómo funciona</h2>
+      <div class="howto">
+        <div><b>Ronda 1<small>${CFG.minR1} min</small></b><span>Elijan hasta dos alternativas para verificar el origen (más los sensores, si quieren) y acuerden quién las paga.</span></div>
+        <div><b>Ronda 2<small>${CFG.minR2} min</small></b><span>Definan las reglas: de quién son los datos, qué pasa con las tres familias, quién responde y qué medirán.</span></div>
+        <div><b>Ronda 3<small>${CFG.minR3} min</small></b><span>Compuerta: llega una carta según lo que decidieron. Continúan, rediseñan o detienen.</span></div>
+        <div><b>Ronda 4<small>${CFG.minR4} min</small></b><span>Comité de inversión: dos mesas presentan y el plenario vota.</span></div>
+        <div><b>Cierre<small>${CFG.minCierre} min</small></b><span>Resultados y lo que realmente pasó con las tres familias.</span></div>
+      </div></div>
+  </div></div>`;
+}
+
+/* ================== Ronda 1 ================== */
+function altCard(k) {
+  const a = ALTS[k], c = CFG.alts[k], on = k === 'a5' ? ST.d.sensores : ST.d.alts[k];
+  const nSel = ['a1', 'a2', 'a3', 'a4'].filter(x => ST.d.alts[x]).length;
+  const dis = k !== 'a5' && !on && nSel >= 2;
+  return `<button type="button" class="alt ${on ? 'on' : ''}" data-alt="${k}" ${dis ? 'disabled' : ''}>
+    <span class="t"><b><span class="num">${a.n}</span>${a.nombre}</b></span><span class="cost">${S(c.inst)} de instalación + ${S(c.anual)} al año</span>
+    <span class="ok">✓ ${a.verifica}</span><span class="no">✗ ${a.noVerifica}</span><span class="m">${a.madurez}</span></button>`;
+}
+function budgetCard(r, d) {
+  const f = r.fin, lim = CFG.presupuesto, w = Math.min(100, f.andina / Math.max(lim, f.andina, 1) * 100), limPos = Math.min(100, lim / Math.max(lim, f.andina, 1) * 100);
+  return `<div class="budget"><h3>Costo y financiamiento (años 4 y 5)</h3>
+  <div class="kv"><span>Costo del año 4 (instalación y operación)</span><span>${S(r.costos.y4)}</span>
+  <span>Costo del año 5</span><span>${S(r.costos.y5)}</span><span><b>Costo total</b></span><span><b>${S(r.costos.total)}</b></span>
+  <span>Fondo concursable${d.datos && d.datos !== 'asociacion' ? ' (no aplica: los datos no son de la asociación)' : d.datos ? '' : ' (si la asociación es dueña de los datos)'}</span><span>${f.fondo ? '−' + S(f.fondo) : S(0)}</span>
+  <span>NordMarkt</span><span>${f.nm ? '−' + S(f.nm) : S(0)}</span>
+  <span>Fondo de contingencia</span><span>${f.cont ? '−' + S(f.cont) : S(0)}</span>
+  <span>Asociación</span><span>${f.asoc ? '−' + S(f.asoc) : S(0)}</span>
+  <span><b>Paga Andina</b></span><span><b>${S(f.andina)}</b></span></div>
+  <div class="meter"><i class="${f.sobre ? 'over' : ''}" style="width:${w}%"></i><span class="lim" style="left:${limPos}%"></span></div>
+  <div class="small">${f.sobre ? `Supera el presupuesto de ${S(lim)}: hay que volver al directorio.` : `Dentro del presupuesto de ${S(lim)} sin volver al directorio.`}</div></div>`;
+}
+function proyCard(r, st) {
+  if (!r.sel.length) return '';
+  if (!r.est) return `<div class="note warn"><b>Sin estimación técnica.</b> El equipo técnico no estimó qué parte de la cosecha llegaría con evidencia aceptable: ${r.sel.filter(k => k !== 'a5').map(k => ALTS[k].corto.toLowerCase()).join(' y ')} no registra${r.sel.filter(k => k !== 'a5').length > 1 ? 'n' : ''} de qué parcela proviene cada saco. Lo que está en juego en los años 4 y 5: hasta ${S(r.enJuego * st.margen)} para Andina y ${S(r.enJuego * st.prima)} en primas para las familias.</div>`;
+  return `<div class="budget" style="margin-top:10px"><h3>Proyección si NordMarkt acepta el sistema</h3>
+  <div class="kv"><span>Lotes con evidencia aceptable (estimación técnica)</span><span>${pct(r.tasas[0])} · ${pct(r.tasas[1])}</span>
+  <span>Toneladas regenerativas años 4 y 5</span><span>${t1(r.t[0])} t · ${t1(r.t[1])} t</span>
+  <span>Tope de compra en el año 5</span><span>${r.caps[1]} t${r.digital5 ? '' : ' (sin registros digitales)'}</span>
+  <span>Contribución de Andina, después de pagar la solución</span><span>${Ssigned(r.contribucion)}</span>
+  <span>Primas para las familias, netas de aportes</span><span>${S(r.primaNeta)}</span></div>
+  <div class="small">Sin un sistema aceptado, la contribución y las primas de los años 4 y 5 serían cero.</div></div>`;
+}
+function vR1() {
+  const st = ST.start, d = ST.d, r = proyeccion();
+  const nSel = ['a1', 'a2', 'a3', 'a4'].filter(x => d.alts[x]).length;
+  const nmEleg = r.fin.nmElegible;
+  if (ST.d.aporteNM > nmEleg) { ST.d.aporteNM = nmEleg; save(); }
+  const valid = nSel >= 1 && d.descartada;
+  return `<div class="row" style="justify-content:space-between"><h1 style="font-size:28px">Ronda 1 · Elegir cómo verificar el origen</h1>${reloj(1)}</div>
+  <p class="sub">Elijan hasta dos alternativas (1 a 4) y, si quieren, el módulo de sensores. Comparen al menos una tecnológica con la que no usa tecnología avanzada.</p>
+  <div class="grid"><div>
+    <div class="card"><h2>Alternativas</h2><p class="sub">Costos ficticios para 25 familias y 50 ha: instalación más costo anual.</p>
+      <div class="alts">${['a1', 'a2', 'a3', 'a4'].map(altCard).join('')}</div>
+      <div style="margin-top:10px">${altCard('a5')}</div>
+      ${d.alts.a2 ? seg('d.apoyo', 'Apoyo a la adopción del registro digital (13 familias sin teléfono apto)', [['promotor', `Promotor digital · ${S(CFG.promotor)}/año`], ['telefonos', `13 teléfonos · ${S(CFG.telefonos)} una vez`], ['ninguno', 'Sin apoyo']], false, 'Sin apoyo, se estima que 11 familias no registrarían.') : ''}
+    </div>
+    <div class="card"><h2>La comparación</h2>
+      <div class="field"><label>Alternativa que descartaron</label><select data-sel="d.descartada"><option value="">Elijan una</option>${['a1', 'a2', 'a3', 'a4'].filter(k => !d.alts[k]).map(k => `<option value="${k}" ${d.descartada === k ? 'selected' : ''}>${ALTS[k].n}. ${ALTS[k].nombre}</option>`).join('')}</select></div>
+      ${txt('d.porQue', '¿Por qué la descartaron? ¿Cuánto cuesta no hacer nada?', 'Ej.: verifica la custodia pero no el origen…', true)}
+    </div>
+  </div><div>
+    <div class="card"><h2>¿Quién paga?</h2>
+      ${roleTag('asoc')}${slider('d.aporteAsoc', 'Aporte en efectivo de la asociación', 0, CFG.asocMax, 500, FMT.soles)}
+      ${st.saldoFondo > 0 ? `${roleTag('andina')} ${roleTag('asoc')}${slider('d.usoFondo', 'Uso del saldo del fondo de contingencia', 0, st.saldoFondo, 500, FMT.soles, 'La mitad de lo que usen es dinero que Andina y la asociación no recuperarán en el año 5.')}` : ''}
+      ${roleTag('nm')}${chk('d.nmAcceso', 'NordMarkt tendrá acceso auditable a los datos', 'Condición de NordMarkt para cofinanciar la plataforma blockchain o el registro digital.')}
+      ${slider('d.aporteNM', `Aporte de NordMarkt (elegible: ${S(nmEleg)})`, 0, Math.max(nmEleg, 1000), 1000, FMT.soles, nmEleg ? '' : 'Solo para la plataforma blockchain o el registro digital, con acceso auditable a los datos.', !nmEleg)}
+      <div class="note">Fondo concursable: hasta 50% de la instalación de las alternativas 2, 4 y 5, si postula la asociación y conserva la propiedad de los datos (se decide en la ronda 2).</div>
+      ${budgetCard(r, ST.d)}
+      ${proyCard(r, st)}
+    </div>
+    <div class="card"><h3>Ratifiquen la elección</h3>
+      ${!valid ? `<div class="note warn">${nSel ? 'Indiquen qué alternativa descartaron.' : 'Elijan al menos una alternativa.'}</div>` : ''}
+      ${ratifyBar('r1', R3)}
+      <button class="btn gold" type="button" id="cerrarR1" ${valid && allRatified('r1', R3) ? '' : 'disabled'}>Pasar a la ronda 2</button></div>
+  </div></div>`;
+}
+
+/* ================== Ronda 2 ================== */
+const EFECTOS = [['exclusion', 'Exclusión de familias sin teléfono o sin lectura'], ['datos', 'Uso de los datos contra las familias'], ['comunidad', 'Conflicto en la comunidad'], ['empleo', 'Empleo (acopio, inspectores, promotor)'], ['privacidad', 'Privacidad de la ubicación de las parcelas'], ['huella', 'Huella de la propia tecnología']];
+function vR2() {
+  const d = ST.d, r = proyeccion();
+  const valid = d.datos && d.familias;
+  return `<div class="row" style="justify-content:space-between"><h1 style="font-size:28px">Ronda 2 · Las reglas</h1>${reloj(2)}</div>
+  <p class="sub">Alternativa elegida: <b>${esc(altsTxt(d))}</b>${d.alts.a2 ? ` · apoyo: ${d.apoyo === 'promotor' ? 'promotor' : d.apoyo === 'telefonos' ? 'teléfonos' : 'ninguno'}` : ''}. Pueden volver a la ronda 1 si necesitan cambiarla.</p>
+  <div class="grid"><div>
+    <div class="card"><h2>¿De quién son los datos?</h2>
+      ${seg('d.datos', '', [['asociacion', 'De la asociación, con licencia a Andina y NordMarkt'], ['andina', 'De Andina'], ['sin', 'Sin acuerdo por ahora']])}
+      <p class="sub">¿Para qué pueden usarse?</p>
+      ${chk('d.usos.traz', 'Trazabilidad y auditoría')}${chk('d.usos.planif', 'Planificación de compras de Andina')}${chk('d.usos.precios', 'Negociación de precios', 'Lo pide el área comercial de Andina.')}${chk('d.usos.marketing', 'Marketing y código QR de NordMarkt')}
+    </div>
+    <div class="card"><h2>Las tres familias</h2>
+      ${seg('d.familias', '', [['expulsion', 'Expulsarlas'], ['verificacion', 'Suspender sus lotes y verificar caso por caso, con derecho a descargo'], ['ninguna', 'Sin medidas']])}
+      <p class="small">Una de ellas es la familia de la tesorera. NordMarkt exige un plan de corrección con un procedimiento justo.</p>
+    </div>
+  </div><div>
+    <div class="card"><h2>Dueño, compuerta y efectos no deseados</h2>
+      ${txt('d.dueno', 'Dueño del resultado (cargo en Andina y en la asociación)', 'Ej.: jefe de acopio y presidenta de la asociación')}
+      ${txt('d.compuerta', 'Compuerta al final del año 4: ¿qué evidencia exigirán para continuar y qué resultado los haría detener?', 'Ej.: al menos 90% de lotes con evidencia y ninguna entrega sobre el cupo sin explicar…', true)}
+      <div class="field"><label>Efecto no deseado que vigilarán</label><select data-sel="d.efectoTipo"><option value="">Elijan uno</option>${EFECTOS.map(([k, t]) => `<option value="${k}" ${d.efectoTipo === k ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
+      ${txt('d.efecto', '¿Cómo lo vigilarán?', '', false)}
+    </div>
+    <div class="card">${budgetCard(r, d)}${proyCard(r, ST.start)}</div>
+    <div class="card"><h3>Firmen el plan</h3>
+      ${!valid ? '<div class="note warn">Decidan de quién son los datos y qué harán con las tres familias.</div>' : ''}
+      ${ratifyBar('r2', R3)}
+      <button class="btn gold" type="button" id="firmarPlan" ${valid && allRatified('r2', R3) ? '' : 'disabled'}>Firmar el plan e ir a la compuerta</button></div>
+  </div></div>`;
+}
+
+/* ================== Ronda 3: cartas ================== */
+function cartaUI(id) {
+  const d = ST.d, vp = d.alts.a2 || d.alts.a4;
+  const U = {
+    c1: { para: 'Mesas sin verificación por parcela o sin plan de corrección para las tres familias',
+      textos: vp ? ['El área legal de NordMarkt revisó el plan y respondió: «Su sistema puede verificar el origen, pero no presentaron un plan de corrección para las tres familias. La certificadora no puede cerrar la no conformidad». La revisión reforzada se mantiene.']
+        : ['El área legal de NordMarkt revisó la propuesta y respondió en una línea: «Su sistema registra con mucha precisión lo que alguien declara en el acopio. Sigo sin saber de qué parcela salió cada saco». La revisión reforzada se mantiene.']
+          .concat(d.alts.a3 ? ['El laboratorio ya entregó sus primeros resultados: los lotes de las tres familias son «consistentes con origen Cabana». También lo sería la quinua de cualquier vecino.'] : []),
+      dec: [{ path: 'c1', label: 'Decisión', opts: [['redisenar', vp ? 'Presentar ahora el plan con verificación caso por caso' : 'Agregar ahora el control interno reforzado'], ['mantener', 'Mantener la propuesta']],
+        hint: vp ? 'Rediseñar: la evidencia del año 4 baja 5 puntos por la demora.' : `Rediseñar: control interno con meses de retraso (${pct(CFG.tasaDemora)} de evidencia en el año 4). Lo invertido ya está gastado.` }] },
+    c2: { para: 'Mesas que expulsaron a las tres familias',
+      textos: ['Las tres familias vendieron su cosecha a los acopiadores de Juliaca y contaron en la feria que «Andina usa los cuadernos para castigar». Dos familias más anuncian que no seguirán en el año 5. Semanas después se sabe que al menos una de las expulsadas no había hecho nada indebido.'],
+      dec: [{ path: 'c2', label: 'Decisión', opts: [['readmitir', 'Abrir un camino de readmisión con verificación caso por caso'], ['mantener', 'Mantener la expulsión']], hint: 'Readmitir: las dos familias se quedan y las expulsadas pueden volver en el año 5. Mantener: dos familias menos en el año 5.' }] },
+    c3: { para: 'Mesas con registro digital sin apoyo a la adopción',
+      textos: ['A mitad de campaña, 11 familias no han registrado nada. No tienen teléfono propio y dependen de hijos que trabajan en Juliaca. Sus lotes llegarán sin evidencia y perderán la prima. Tres de ellas anuncian que dejarán el programa en el año 5.'],
+      dec: [{ path: 'c3', label: 'Decisión', opts: [['promotor', `Agregar el promotor para el año 5 (${S(CFG.promotor)})`], ['mantener', 'Seguir sin apoyo']], hint: 'Con el promotor, las tres familias se quedan y la evidencia del año 5 sube.' }] },
+    c4: { para: 'Mesas que dejaron los datos en Andina, sin acuerdo o con permiso para usarlos en precios',
+      textos: ['El área comercial de Andina usó los rendimientos por parcela en su propuesta de precio para el año 5: «Si producen más, pueden aceptar menos prima». La asamblea se enteró en una semana. Dos familias se retiran del año 5 y la asociación exige renegociar la propiedad de los datos.'],
+      dec: [{ path: 'c4', label: 'Decisión', opts: [['clausula', 'Firmar ahora una cláusula: los datos son de la asociación y solo se usan para trazabilidad y auditoría'], ['mantener', 'Mantener el control actual de los datos']], hint: 'Con la cláusula, las familias se quedan y el fondo concursable vuelve a estar disponible.' }] },
+    c5: { para: 'Mesas con registro digital y apoyo a la adopción',
+      textos: ['Al cruzar los contornos de las parcelas con las imágenes, el analista encontró dos sorpresas. Una de las tres familias cultiva 0,6 ha que nunca declaró, en tierras de su suegro, en transición desde hace dos años. Y dos familias sembraron este año 1,5 ha en pasto comunal junto a un bofedal; los alpaqueros vecinos ya se quejaron ante la comunidad.'],
+      dec: [{ path: 'parcela', label: 'La parcela no declarada', opts: [['incorporar', 'Auditarla e incorporarla al alcance'], ['no', 'No incorporarla']], hint: 'Incorporarla suma 0,6 ha desde el año 5.' },
+        { path: 'pasto', label: 'El pasto comunal', opts: [['excluir', 'Excluir las 1,5 ha y conversar con la comunidad'], ['ocultar', 'No decir nada']], hint: 'Excluir resta unas 2,7 t por año. Callar es apostar a que el auditor no lo vea.' }] },
+    c6: { para: 'Mesas con el módulo de sensores',
+      textos: ['El año 4 tuvo lluvias normales, pero también un veranillo de tres semanas. Los sensores mostraron que las parcelas regenerativas mantuvieron humedad útil entre 6 y 9 días más que las convencionales vecinas (valores ficticios). El área comercial de NordMarkt quiere imprimirlo ya; legal repite que una campaña no basta.', 'Un fondo de adaptación propone financiar el 60% de llevar el mismo sistema a cinco asociaciones (250 ha) si Andina actúa como operador y presenta dos campañas de datos.'],
+      dec: [{ path: 'afirmacion', label: '¿Qué afirmación hacen hoy?', opts: [['esperar', 'Ninguna: esperar la segunda campaña'], ['interna', 'Compartir los datos solo con NordMarkt'], ['empaque', 'Publicarlo ya en el empaque']] },
+        { path: 'escala', label: '¿Andina opera la escala?', opts: [['si', 'Sí: prepararse para operar cinco asociaciones'], ['no', 'Todavía no']], hint: 'Si dicen que sí: ¿qué tendría que cambiar en Andina? (Recuerden a Schneider.)' }] },
+    c7: { para: 'Mesas con control interno sin registro digital',
+      textos: ['El control interno funcionó en la mayoría de las parcelas, pero dos socios inspectores se negaron a revisar a sus parientes, y en una visita se estimaron 1,6 t/ha donde la familia terminó entregando el equivalente a 2,3. NordMarkt recuerda que, para el año 5, cualquier volumen por encima de 70 t exigirá registros digitales.'],
+      dec: [{ path: 'c7', label: 'Decisión', opts: [['migrar', `Migrar al registro digital con promotor para el año 5 (${S(CFG.alts.a2.inst + CFG.alts.a2.anual + CFG.promotor)})`], ['mantener', 'Quedarse con el control interno']], hint: 'Sin registros digitales, NordMarkt compra solo el mínimo de 70 t en el año 5.' }] },
+    agua: { para: 'Carta comodín',
+      textos: ['Un periodista regional publicó fotos del canal aguas abajo de la planta de Andina, con espuma blanca después del lavado de la quinua. Una compradora de NordMarkt reenvió la nota con una pregunta: «¿Esto es parte de nuestra cadena?».', 'La desaponificación en seco reduce el agua de lavado y recupera la saponina en polvo (el «mojuelo», alrededor de 4,5% del grano), que puede venderse como insumo para bioplaguicidas.'],
+      dec: [{ path: 'agua', label: '¿Qué deciden para la planta? (costos de planta, fuera del piloto)', opts: [['seco', 'Desaponificación en seco con recirculación · S/140.000'], ['medidores', 'Medidores con datos públicos para la junta de usuarios · S/12.000'], ['poza', 'Horarios con la comunidad y poza de sedimentación · S/15.000'], ['nada', 'Responder sin cambios']] }] }
+  };
+  return U[id];
+}
+function cartaCompleta() {
+  const id = ST.carta.id; if (!id) return false;
+  const u = cartaUI(id); if (!u.dec.every(x => ST.carta.ops[x.path])) return false;
+  if (ST.carta.aguaOn && !ST.carta.agua) return false;
+  return true;
+}
+function cartaBloque(id, isAgua) {
+  const u = cartaUI(id), c = CARTAS[id];
+  const decs = u.dec.map(x => seg(isAgua ? 'carta.agua' : 'carta.ops.' + x.path, x.label, x.opts, false, x.hint)).join('');
+  return `<div class="cardC"><div class="eyebrow">${isAgua ? 'Carta comodín' : 'Su carta · ' + esc(u.para)}</div><h2>${esc(c.titulo)}</h2>${u.textos.map(t => `<p>${esc(t)}</p>`).join('')}${decs}</div>`;
+}
+function revelarCarta() {
+  const c = CARTAS[ST.carta.id];
+  $('layer').innerHTML = `<div class="reveal" style="background:radial-gradient(circle at 50% 30%,#d6a03c,#6b4a12 60%,#2b1d02)"><div style="max-width:760px">
+    <div class="eyebrow" style="letter-spacing:.2em;text-transform:uppercase;font-size:12px;font-weight:700">Compuerta · mitad del año 4</div>
+    <h1>${esc(c.titulo)}</h1><p style="font-size:17px">El año avanzó con su plan. Esto es lo que pasó.</p>
+    <button class="btn gold" type="button" id="verCarta" style="margin-top:18px">Leer la carta</button></div></div>`;
+}
+function vR3() {
+  if (!ST.carta.id) return '<div class="card">Firmen el plan en la ronda 2.</div>';
+  const r = ST.calc.r3, ok = cartaCompleta();
+  return `<section class="hero gate"><div class="eyebrow">Ronda 3 · Compuerta</div><h1>Continuar, rediseñar o detener</h1>
+  <p>Lean su carta, tomen la decisión y calculen. En cada compuerta: continuar, rediseñar o detener.</p></section>${reloj(3)}
+  <div class="grid"><div>
+    ${cartaBloque(ST.carta.id)}
+    <div class="card" style="margin-top:16px"><h3>Decisión de la compuerta</h3>
+      ${seg('carta.detener', '', [[false, 'Seguir con el piloto en el año 5'], [true, 'Detener el piloto al final del año 4']], false, 'Detener ahorra los costos del año 5, pero no habrá toneladas regenerativas ni primas ese año.')}
+      ${ST.carta.ops.c7 === 'migrar' ? `${roleTag('nm')}${slider('d.aporteNM', `Aporte de NordMarkt (elegible: ${S(calcC(CFG, ST.start, ST.d, cartaActual()).fin.nmElegible)})`, 0, Math.max(calcC(CFG, ST.start, ST.d, cartaActual()).fin.nmElegible, 1000), 1000, FMT.soles)}${ST.d.nmAcceso ? '' : chk('d.nmAcceso', 'NordMarkt tendrá acceso auditable a los datos')}` : ''}
+    </div>
+    ${ST.carta.aguaOn ? `<div style="margin-top:16px">${cartaBloque('agua', true)}</div>` : ''}
+  </div><div>
+    <div class="card"><h3>Ratifiquen la decisión</h3>
+      ${!ok ? '<div class="note warn">Respondan todas las decisiones de la carta.</div>' : ''}
+      ${ratifyBar('r3', R3)}
+      <div class="row"><button class="btn gold" type="button" id="calcR3" ${ok && allRatified('r3', R3) ? '' : 'disabled'}>Calcular resultados</button>
+      ${!ST.carta.aguaOn ? '<button class="btn ghost" type="button" id="pedirAgua">Pedir la carta comodín</button>' : ''}</div></div>
+    ${r ? resultadosHTML(r) : '<div class="empty"><b>Sin resultados todavía</b>Decidan y ratifiquen para calcular los años 4 y 5.</div>'}
+    ${r ? '<div class="row"><button class="btn" type="button" id="aR4">Ir al comité de inversión</button></div>' : ''}
+  </div></div>`;
+}
+function resultadosHTML(r) {
+  const st = ST.start;
+  const stA = r.contribucion > 0 && !r.fin.sobre ? 'ok' : r.contribucion > 0 ? 'warn' : 'bad';
+  const stP = r.fam[1] >= st.fam && r.primaNeta > 0 ? 'ok' : r.primaNeta > 0 ? 'warn' : 'bad';
+  const bajo = r.t.some((x, i) => (i === 0 || !r.final.detener) && x < CFG.minimo);
+  const stN = !r.acepta ? 'bad' : bajo ? 'warn' : 'ok';
+  const chkL = (b, t) => `<div class="check ${b ? 'y' : 'n'}"><i>${b ? '✓' : '✗'}</i><span>${t}</span></div>`;
+  return `<div class="card"><h2>Resultados de los años 4 y 5</h2>
+  <div class="actors">
+    <div class="actor andina"><div class="name">Andina</div><div class="big">${Ssigned(r.contribucion)}</div><div class="small">contribución, después de pagar la solución</div>
+      <span class="st ${stA}">${stA === 'ok' ? 'Dentro del presupuesto' : stA === 'warn' ? 'Requiere volver al directorio' : 'Pierde dinero'}</span>
+      <div class="kv"><span>Costo total de la solución</span><span>${S(r.costos.total)}</span><span>Paga Andina</span><span>${S(r.fin.andina)}</span><span>Margen por tonelada</span><span>${S(st.margen)}</span></div></div>
+    <div class="actor asoc"><div class="name">Asociación</div><div class="big">${r.fam[1]} de ${st.fam}</div><div class="small">familias en el año 5</div>
+      <span class="st ${stP}">${stP === 'ok' ? 'Nadie se va' : stP === 'warn' ? 'Hay salidas' : 'Sin primas'}</span>
+      <div class="kv"><span>Primas netas años 4 y 5</span><span>${S(r.primaNeta)}</span><span>Por familia, en promedio</span><span>${S(r.primaFam)}</span><span>Familias en el año 4</span><span>${r.fam[0]}</span></div></div>
+    <div class="actor nm"><div class="name">NordMarkt</div><div class="big">${t1(r.t[0])} t · ${t1(r.t[1])} t</div><div class="small">regenerativas verificadas, años 4 y 5</div>
+      <span class="st ${stN}">${!r.acepta ? 'Sin declaración regenerativa' : bajo ? 'Bajo el mínimo de 70 t' : 'Sistema aceptado'}</span>
+      <div class="kv"><span>Evidencia aceptable</span><span>${r.acepta ? pct(r.tasas[0]) + ' · ' + pct(r.tasas[1]) : '—'}</span><span>Tope de compra</span><span>${r.caps[0]} t · ${r.caps[1]} t</span></div></div>
+  </div>
+  <div class="impacto"><div class="name">Impacto ambiental y social · ${r.impacto.pts} de 3</div>
+    ${chkL(r.impacto.inclusion, 'Ninguna familia queda fuera del sistema por falta de medios')}
+    ${chkL(r.impacto.gobernanza, 'Datos de la asociación con reglas de uso, y verificación caso por caso de las tres familias')}
+    ${chkL(r.impacto.ambiental, 'Evidencia ambiental: sensores sin afirmaciones apresuradas, o respuesta documentada sobre el agua de la planta')}</div>
+  ${r.alertas.map(a => `<div class="note bad">${esc(a)}</div>`).join('')}${r.notas.map(a => `<div class="note">${esc(a)}</div>`).join('')}
+  </div>`;
+}
+
+/* ================== Ronda 4: comité ================== */
+function pitch() {
+  const d = ST.d, r = ST.calc.r3, f = r.fin, efecto = (EFECTOS.find(e => e[0] === d.efectoTipo) || [, '—'])[1];
+  const fam = { expulsion: 'Expulsión', verificacion: 'Verificación caso por caso, con derecho a descargo', ninguna: 'Sin medidas' };
+  const dat = { asociacion: 'De la asociación, con licencia a Andina y NordMarkt', andina: 'De Andina', sin: 'Sin acuerdo' };
+  return `<dl class="pitch">
+  <dt>Problema de información</dt><dd>Nadie podía demostrar de qué parcela venían 2,9 t de más. NordMarkt exige verificar el origen por parcela.</dd>
+  <dt>Alternativa elegida y descartada</dt><dd>${esc(['a1', 'a2', 'a3', 'a4'].filter(k => d.alts[k]).map(k => ALTS[k].nombre).join(' + '))}${r.final.addA4 ? ' + control interno (rediseño)' : ''}${r.final.migra ? ' + registro digital en el año 5' : ''}${d.sensores ? ' + sensores' : ''}${d.alts.a2 ? ` (apoyo: ${d.apoyo})` : ''}. Descartaron: ${d.descartada ? esc(ALTS[d.descartada].nombre) : '—'}${d.porQue ? ` — ${esc(d.porQue)}` : ''}</dd>
+  <dt>Complementos y quién paga</dt><dd>Costo ${S(r.costos.total)}: Andina ${S(f.andina)}, NordMarkt ${S(f.nm)}, fondo concursable ${S(f.fondo)}, asociación ${S(f.asoc)}${f.cont ? `, fondo de contingencia ${S(f.cont)}` : ''}.</dd>
+  <dt>Datos y tres familias</dt><dd>${dat[r.final.datos] || '—'}. ${fam[r.final.familias] || '—'}.</dd>
+  <dt>Dueño y compuerta</dt><dd>${esc(d.dueno || '—')}. ${esc(d.compuerta || '')}</dd>
+  <dt>Efecto no deseado</dt><dd>${esc(efecto)}${d.efecto ? ` — ${esc(d.efecto)}` : ''}</dd>
+  <dt>Carta y decisión</dt><dd>${esc(CARTAS[ST.carta.id].titulo)}${r.final.detener ? ' · detienen el piloto al final del año 4' : ''}</dd>
+  <dt>Resultado</dt><dd>${t1(r.t[0])} t y ${t1(r.t[1])} t verificadas; Andina ${Ssigned(r.contribucion)}; ${r.fam[1]} familias en el año 5; impacto ${r.impacto.pts} de 3.</dd></dl>`;
+}
+function vR4() {
+  if (!ST.calc.r3) return '<div class="card">Completen la ronda 3.</div>';
+  const c = ST.comite;
+  return `<div class="row" style="justify-content:space-between"><h1 style="font-size:28px">Ronda 4 · Comité de inversión</h1>${reloj(4)}</div>
+  <p class="sub">Dos mesas presentan su piloto en 2 minutos. El resto vota: aprobar con condición, rediseñar o detener. ¿El impacto justifica escalar? ¿Están financiados los complementos y hay métricas para la etapa sin retorno?</p>
+  <div class="grid"><div><div class="card"><h2>Su piloto en una pantalla</h2>${pitch()}</div></div>
+  <div><div class="card"><h2>Registro del comité</h2>
+    ${seg('comite.presento', '¿Presentaron ante el comité?', [['si', 'Sí, presentamos'], ['no', 'No presentamos']])}
+    ${c.presento === 'si' ? `${seg('comite.veredicto', 'Veredicto del plenario', [['aprobar', 'Aprobar con condición'], ['redisenar', 'Rediseñar'], ['detener', 'Detener']])}${txt('comite.condicion', c.veredicto === 'aprobar' ? '¿Con qué condición?' : c.veredicto === 'redisenar' ? '¿Qué debe cambiar?' : '¿Por qué no vale la pena?', '', true)}` : ''}
+    ${c.presento === 'no' ? txt('comite.voto', '¿Cómo votó su mesa sobre las presentaciones y por qué?', '', true) : ''}
+    <div class="row"><button class="btn gold" type="button" id="registrarComite" ${c.presento ? '' : 'disabled'}>Registrar e ir al cierre</button></div></div></div></div>`;
+}
+
+/* ================== Cierre ================== */
+function familiasReveal() {
+  const d = ST.d;
+  const muestra = d.alts.a2 ? 'Su registro digital: la alerta habría señalado a la familia 1, las imágenes habrían mostrado la parcela de la familia 2 y el rendimiento real de la familia 3.'
+    : d.alts.a4 ? 'Su control interno: el aforo y los sacos precintados habrían detectado a la familia 1; una visita cuidadosa, la parcela de la familia 2 y el buen rendimiento de la familia 3.'
+      : d.alts.a1 ? 'Su plataforma blockchain habría registrado las 3,9 t de la familia 1 de forma perfecta e inalterable.'
+        : d.alts.a3 ? 'Su huella de origen habría confirmado que las 11 t eran «consistentes con origen Cabana», incluida la quinua del primo.' : '';
+  return `<div class="fam3">
+    <div class="group"><div class="h">Familia 1 · entregó 3,9 t</div><b>Fraude</b>Produjo 2,7 t y compró 1,2 t de quinua convencional a un primo para completar el volumen que se había comprometido a entregar durante la crisis.<span class="tag fraude">Fraude con un motivo comprensible</span></div>
+    <div class="group"><div class="h">Familia 2 · entregó 3,5 t</div><b>Error de registro</b>Produjo 0,8 t en 0,6 ha de su suegro, en transición, que no declaró porque el cuaderno de papel solo tenía espacio para una parcela.<span class="tag registro">Producción legítima fuera del alcance</span></div>
+    <div class="group"><div class="h">Familia 3 · entregó 3,6 t</div><b>Error de estimación</b>Su parcela, en una pampa con mejor suelo, rindió 1,8 t/ha. El técnico la estimó a simple vista en 1,35 t/ha durante la sequía.<span class="tag inocente">Inocente</span></div></div>
+    ${muestra ? `<div class="note">${muestra}</div>` : ''}
+    ${d.familias === 'expulsion' ? '<div class="note bad">Expulsar a las tres castigó a dos familias que no cometieron fraude.</div>' : ''}`;
+}
+function contraste() {
+  const base = ST.start, card = cartaActual();
+  const esc3 = [['Su punto de partida', base], ['Con 20 familias (escenario de menor participación)', Object.assign({}, base, { fam: 20 })], ['Sin la opción de 20 t de NordMarkt (solo 70 t)', Object.assign({}, base, { opcion: 0 })]];
+  const ctrl = Object.assign(JSON.parse(JSON.stringify(ST.d)), { alts: { a1: false, a2: false, a3: false, a4: true }, sensores: false });
+  const fila = (n, st) => { const r = calcC(CFG, st, ST.d, card); const c = calcC(CFG, st, ctrl, { id: 'c7', ops: { c7: 'mantener' }, detener: false, agua: null });
+    const bajo = r.t.some((x, i) => (i === 0 || !r.final.detener) && x < CFG.minimo);
+    return `<tr><td>${n}</td><td class="n">${t1(r.t[0])} · ${t1(r.t[1])}${bajo ? ' ⚠' : ''}</td><td class="n">${Ssigned(r.contribucion)}</td><td class="n">${Ssigned(c.contribucion)}</td></tr>`; };
+  return `<div class="card"><h2>¿Cómo cambiaría el resultado con otras condiciones?</h2>
+    <p class="sub">${base.origen === 'herencia' || base.origen === 'comun' ? 'Todas las mesas partieron del mismo punto. ' : ''}Así cambiarían los resultados ante menor participación o menor capacidad de compra.</p>
+    <div class="scroll"><table class="tbl"><tr><th>Punto de partida</th><th>t año 4 · 5</th><th>Andina con su plan</th><th>Andina solo con control interno</th></tr>${esc3.map(([n, st]) => fila(n, st)).join('')}</table></div>
+    <div class="small" style="margin-top:6px">⚠ Bajo el mínimo de ${CFG.minimo} t en algún año. Con 20 familias, ningún sistema llega a ${CFG.minimo} t: persistiría el problema de volumen. Sin la opción de 20 t, la evidencia extra se vende como convencional y la tecnología pierde su ventaja: se justifica por la escala, no por el año.</div></div>`;
+}
+function vCierre() {
+  const r = ST.calc.r3; if (!r) return '<div class="card">Completen la ronda 3.</div>';
+  return `<section class="hero audit"><div class="eyebrow">Cierre</div><h1>¿Qué tenía que poder verificarse?</h1><p>Comparen sus resultados con los de las otras mesas y descubran qué hizo realmente cada familia.</p></section>${reloj(5)}
+  <div class="grid"><div>
+    ${resultadosHTML(r)}
+    <div class="card"><h2>Lo que realmente pasó con las tres familias</h2>
+      ${ST.revelado ? familiasReveal() : '<p class="sub">Ábranlo cuando el facilitador lo indique.</p><button class="btn gold" type="button" id="revelar">Revelar</button>'}</div>
+    ${ST.revelado ? contraste() : ''}
+  </div><div>
+    <div class="card"><h2>Reflexión de la mesa</h2>
+      ${txt('cierre.verifico', '¿Qué verificó su sistema y qué quedó sin verificar?', '', true)}
+      ${txt('cierre.capturo', '¿Quién capturó el valor de la información: Andina, las familias o NordMarkt?', '', true)}
+      ${txt('cierre.distinto', '¿Qué harían distinto si tuvieran que escalar a cinco asociaciones?', '', true)}
+      <div class="row"><button class="btn gold" type="button" id="enviarCierre">Registrar cierre</button><button class="btn ghost" type="button" id="copiarEstado">Copiar estado</button><button class="btn ghost" type="button" id="descargarEstado">Descargar estado</button><span class="small" id="copiado"></span></div></div>
+    <div class="card"><h3>Para recordar</h3>
+      <div class="check y"><i>•</i><span><b>Inalterable no significa verdadero.</b> El problema estaba en la chacra, donde nacen los datos.</span></div>
+      <div class="check y"><i>•</i><span><b>La alternativa sin tecnología ganó el año; la tecnológica, la escala.</b></span></div>
+      <div class="check y"><i>•</i><span><b>Lo caro no era el software:</b> teléfonos, promotor, el jefe de acopio y las reglas sobre los datos.</span></div>
+      <div class="check y"><i>•</i><span><b>Quien controla los datos decide quién coopera.</b></span></div></div>
+  </div></div>`;
+}
+
+/* ================== eventos ================== */
+function invalidar(r) {
+  if (r === 1) { ST.ratif.r1 = {}; ST.ratif.r2 = {}; }
+  if (r === 2) ST.ratif.r2 = {};
+  if (r === 3) { ST.ratif.r3 = {}; ST.calc.r3 = null; }
+}
+function cargarStart(s, msg) { ST.start = s; ST.startUI.msg = msg || ''; log('Punto de partida: ' + (s.referencia ? 'referencia' : s.origen)); save(); render(); }
+const norm = x => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
+document.addEventListener('click', async e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.go) { go(+b.dataset.go); return; }
+  if (b.dataset.seg) { setPath(b.dataset.seg, JSON.parse(b.dataset.val)); invalidar(ST.ronda); save(); render(); return; }
+  if (b.dataset.ratif) { const [r, x] = b.dataset.ratif.split('.'); ST.ratif[r][x] = !ST.ratif[r][x]; save(); render(); return; }
+  if (b.dataset.alt) {
+    const k = b.dataset.alt;
+    if (k === 'a5') ST.d.sensores = !ST.d.sensores; else { ST.d.alts[k] = !ST.d.alts[k]; if (ST.d.alts[k] && ST.d.descartada === k) ST.d.descartada = ''; }
+    invalidar(1); save(); render(); return;
+  }
+  if (b.dataset.tab) return;
+  switch (b.id) {
+    case 'empezar': log('Inicio de la mesa'); enviar('inicio', { puntoPartida: ST.start }); go(1); break;
+    case 'cerrarR1': log('Ronda 1: ' + altsTxt(ST.d)); enviar('r1_eleccion', { alternativas: altsTxt(ST.d), descartada: ST.d.descartada }); go(2); break;
+    case 'firmarPlan': {
+      const id = asignarCarta(ST.d);
+      if (!ST.carta.forzada || !ST.carta.id) ST.carta = { id, ops: {}, detener: false, agua: null, aguaOn: false, vista: false, forzada: false };
+      else ST.carta.vista = false;
+      ST.calc.r3 = null; ST.ratif.r3 = {};
+      log('Plan firmado; carta ' + ST.carta.id); enviar('r2_plan_firmado', { carta: ST.carta.id }); go(3); break;
+    }
+    case 'verCarta': ST.carta.vista = true; $('layer').innerHTML = ''; save(); render(); break;
+    case 'pedirAgua': ST.carta.aguaOn = true; invalidar(3); log('Carta comodín'); save(); render(); break;
+    case 'calcR3': {
+      ST.intentos.r3 = (ST.intentos.r3 || 0) + 1;
+      const r = calcC(CFG, ST.start, ST.d, cartaActual()); ST.calc.r3 = r;
+      log(`R3: t ${t1(r.t[0])}/${t1(r.t[1])}; Andina ${Ssigned(r.contribucion)}; familias ${r.fam[1]}`);
+      enviar('r3_resultado', { carta: ST.carta.id, ops: ST.carta.ops, detener: ST.carta.detener, agua: ST.carta.aguaOn ? ST.carta.agua : null });
+      save(); render(); break;
+    }
+    case 'aR4': go(4); break;
+    case 'registrarComite': log('Comité registrado'); enviar('r4_comite', ST.comite); go(5); break;
+    case 'revelar': ST.revelado = true; log('Revelación de las tres familias'); enviar('revelacion_familias'); save(); render(); break;
+    case 'enviarCierre': log('Cierre registrado'); enviar('cierre'); save(); b.textContent = 'Cierre registrado ✓'; break;
+    case 'copiarEstado': copiar(JSON.stringify(estadoFinal(), null, 2)); break;
+    case 'descargarEstado': descargar(); break;
+    case 'openFac': abrirFacilitador(); break;
+  }
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.closest && t.closest('#layer')) return;
+  if (t.id === 'mesa') { ST.mesa = t.value; save(); const b = $('empezar'); if (b) b.disabled = !(t.value.trim() && ST.start); return; }
+  if (t.dataset.rep) { ST.reps[t.dataset.rep] = t.value; save(); return; }
+  if (t.dataset.text) { setPath(t.dataset.text, t.value); save(); return; }
+  if (t.dataset.num) { setPath(t.dataset.num, +t.value); save(); return; }
+  if (t.dataset.path) { const v = +t.value; setPath(t.dataset.path, v); const lab = $('v_' + t.dataset.path); if (lab) lab.textContent = FMT[t.dataset.fmt](v); }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.closest && t.closest('#layer')) return;
+  if (t.dataset.path) { invalidar(ST.ronda); save(); render(); }
+  if (t.dataset.chk) { setPath(t.dataset.chk, t.checked); invalidar(ST.ronda); save(); render(); }
+  if (t.dataset.sel) { setPath(t.dataset.sel, t.value); invalidar(ST.ronda); save(); render(); }
+});
+
+async function copiar(txt) {
+  try { await navigator.clipboard.writeText(txt); const c = $('copiado'); if (c) c.textContent = 'Copiado'; }
+  catch (e) { mostrarTexto(txt); }
+}
+function descargar() {
+  let enMarco = true; try { enMarco = window.self !== window.top; } catch (e) { }
+  if (enMarco) { mostrarTexto(JSON.stringify(estadoFinal(), null, 2)); return; }
+  try {
+    const blob = new Blob([JSON.stringify(estadoFinal(), null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'andina-c-' + (ST.mesa || 'mesa').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+  } catch (e) { mostrarTexto(JSON.stringify(estadoFinal(), null, 2)); }
+}
+function mostrarTexto(txt) {
+  $('layer').innerHTML = `<div class="overlay"><div class="modal"><h2>Copien este texto</h2><textarea style="min-height:320px" class="mono" readonly>${esc(txt)}</textarea><div class="row" style="margin-top:10px"><button class="btn" type="button" id="cerrarLayer">Cerrar</button></div></div></div>`;
+  $('cerrarLayer').onclick = () => { $('layer').innerHTML = ''; };
+}
+
+/* ================== panel del facilitador ================== */
+let facTab = 'guia';
+const PARAMS = [['presupuesto', 'Presupuesto de Andina (S/)'], ['asocMax', 'Aporte máximo de la asociación'], ['nmMax', 'Aporte máximo de NordMarkt'], ['fondoPct', 'Fondo concursable (fracción de la instalación)'],
+  ['telefonos', 'Teléfonos (S/, una vez)'], ['promotor', 'Promotor (S/ por año)'], ['minimo', 'Mínimo de NordMarkt (t)'], ['rend', 'Rendimiento años 4 y 5 (t/ha)'],
+  ['tasaDemora', 'Evidencia año 4 tras rediseño tardío'], ['bonusMonitoreo', 'Bonificación por monitoreo del Caso A'], ['tasaMax', 'Evidencia máxima'],
+  ['minR0', 'Minutos inicio'], ['minR1', 'Minutos ronda 1'], ['minR2', 'Minutos ronda 2'], ['minR3', 'Minutos ronda 3'], ['minR4', 'Minutos ronda 4'], ['minCierre', 'Minutos cierre']];
+function abrirFacilitador() {
+  if (!store.get('andina.facOK', false)) {
+    $('layer').innerHTML = `<div class="overlay"><div class="modal" style="max-width:420px"><h2>Panel del facilitador</h2><div class="field"><label>Clave</label><input type="password" id="pin"></div><div class="row"><button class="btn" type="button" id="pinOK">Entrar</button><button class="btn ghost" type="button" id="cerrarLayer">Cancelar</button></div><div class="small" id="pinErr"></div></div></div>`;
+    $('cerrarLayer').onclick = () => { $('layer').innerHTML = ''; };
+    $('pinOK').onclick = () => { if ($('pin').value === CFG.pin) { store.set('andina.facOK', true); abrirFacilitador(); } else $('pinErr').textContent = 'Clave incorrecta.'; };
+    return;
+  }
+  const tab = { guia: facGuia, mesas: facMesas, parametros: facParametros, conexion: facConexion, mesa: facMesa }[facTab]();
+  $('layer').innerHTML = `<div class="overlay"><div class="modal"><div class="row" style="justify-content:space-between"><h2>Panel del facilitador</h2><button class="btn ghost" type="button" id="cerrarFac">Cerrar</button></div>
+   <div class="tabs">${[['guia', 'Guía'], ['mesas', 'Todas las mesas'], ['parametros', 'Parámetros'], ['conexion', 'Google Sheets'], ['mesa', 'Esta mesa']].map(([k, t]) => `<button type="button" data-tab="${k}" class="${facTab === k ? 'on' : ''}">${t}</button>`).join('')}</div>${tab}</div></div>`;
+  $('cerrarFac').onclick = () => { $('layer').innerHTML = ''; render(); };
+  $('layer').querySelectorAll('[data-tab]').forEach(x => x.onclick = () => { facTab = x.dataset.tab; abrirFacilitador(); });
+  bindFac();
+}
+function facGuia() {
+  let m = 0; const fila = (min, et, q) => { const s = `<tr><td>${m}–${m + min}</td><td>${et}</td><td>${q}</td></tr>`; m += min; return s; };
+  return `<h3>Agenda de ${CFG.minR0 + CFG.minR1 + CFG.minR2 + CFG.minR3 + CFG.minR4 + CFG.minCierre} minutos</h3>
+  <table class="tbl"><tr><th>Minuto</th><th>Etapa</th><th>Qué hace el facilitador</th></tr>
+  ${fila(CFG.minR0, 'Inicio', 'Todas las mesas parten de condiciones comunes propias del Caso C, sin importar los resultados de otras simulaciones.')}
+  ${fila(CFG.minR1, 'Ronda 1 · Elegir', 'Si una mesa elige blockchain o huella de origen sola, pregunte: «¿cómo sabrán de qué parcela vino cada saco?». No dé la respuesta.')}
+  ${fila(CFG.minR2, 'Ronda 2 · Reglas', 'Empuje la discusión sobre los datos y las tres familias. Al firmar, la pantalla asigna la carta.')}
+  ${fila(CFG.minR3, 'Ronda 3 · Compuerta', 'La carta aparece en pantalla. Las mesas que terminen antes pueden pedir la carta comodín del agua.')}
+  ${fila(CFG.minR4, 'Ronda 4 · Comité', 'Elija dos mesas con decisiones contrastantes. Cada una presenta en 2 minutos con la pantalla «Su piloto en una pantalla». El plenario vota.')}
+  ${fila(CFG.minCierre, 'Cierre', 'Pida a todas las mesas pulsar «Revelar» a la vez; aparece también cómo habría cambiado su plan con menor participación de productores. Tres mensajes: inalterable no es verdadero; sin tecnología gana el año y con tecnología la escala; lo caro son los complementos.')}</table>
+  <h3 style="margin-top:14px">Reglas de asignación de cartas (la primera que aplique)</h3>
+  <table class="tbl">${['c1', 'c2', 'c3', 'c7', 'c4', 'c6', 'c5', 'agua'].map((k, i) => `<tr><td>${k === 'agua' ? '—' : i + 1}</td><td><b>${esc(CARTAS[k].titulo)}</b></td><td>${esc(CARTAS[k].regla)}</td></tr>`).join('')}</table>`;
+}
+function facMesas() {
+  return `<p class="sub">Lee de la hoja el último estado de cada mesa en el Caso C. También pueden pegar estados copiados.</p>
+  <div class="row"><button class="btn" type="button" id="cargarMesas" ${CONN.sheetUrl ? '' : 'disabled'}>Cargar desde Google Sheets</button><span class="small" id="mesasMsg"></span></div>
+  <div class="field"><label>O peguen estados (uno por línea o una lista)</label><textarea id="pegarEstados" class="mono"></textarea><button class="btn ghost" type="button" id="verPegados">Mostrar</button></div>
+  <div id="tablaMesas"></div>`;
+}
+function tablaMesas(list) {
+  if (!list.length) return '<div class="empty"><b>Sin mesas</b>Todavía no hay estados registrados.</div>';
+  return `<div class="scroll"><table class="tbl"><tr><th>Mesa</th><th>Partida</th><th>Alternativas</th><th>Datos · familias</th><th>Carta</th><th>t año 4 · 5</th><th>Andina</th><th>Familias año 5</th><th>Impacto</th><th>Comité</th></tr>
+  ${list.map(e => { const p = e.plan || {}, r = e.resultado, s = e.puntoPartida || {};
+    const alts = p.alts ? ['a1', 'a2', 'a3', 'a4'].filter(k => p.alts[k]).map(k => ALTS[k].n).join('+') + (p.sensores ? '+5' : '') : '—';
+    return `<tr><td><b>${esc(e.mesa)}</b></td><td>${s.fam != null ? s.fam + ' fam' + (s.referencia ? ' (ref.)' : '') : '—'}</td><td>${esc(alts)}${p.alts && p.alts.a2 ? ' · ' + esc(p.apoyo) : ''}</td>
+    <td>${esc(p.datos || '—')} · ${esc(p.familias || '—')}</td><td>${e.carta && e.carta.id ? esc(CARTAS[e.carta.id].titulo) : '—'}</td>
+    <td class="n">${r ? t1(r.toneladas[0]) + ' · ' + t1(r.toneladas[1]) : '—'}</td><td class="n">${r ? Ssigned(r.contribucionAndina) : '—'}</td><td class="n">${r ? r.familias[1] : '—'}</td>
+    <td class="n">${r ? r.impacto.pts + '/3' : '—'}</td><td>${e.comite && e.comite.veredicto ? esc(e.comite.veredicto) : '—'}</td></tr>`; }).join('')}</table></div>`;
+}
+function facParametros() {
+  return `<p class="sub">Cambios guardados en esta computadora. El Caso C siempre comienza de forma independiente, con los mismos parámetros para todas las mesas.</p>
+  <div class="params">${PARAMS.map(([k, l]) => `<label>${l}<input type="number" step="any" data-cfg="${k}" value="${CFG[k]}"></label>`).join('')}</div>
+  <h3 style="margin-top:14px">Costos de las alternativas</h3><div class="params">${Object.keys(CFG.alts).map(k => `<label>${ALTS[k].n}. ${esc(ALTS[k].corto)} · instalación<input type="number" data-alt-cfg="${k}.inst" value="${CFG.alts[k].inst}"></label><label>${ALTS[k].n}. ${esc(ALTS[k].corto)} · anual<input type="number" data-alt-cfg="${k}.anual" value="${CFG.alts[k].anual}"></label>`).join('')}</div>
+  <div class="row" style="margin-top:12px"><button class="btn" type="button" id="guardarCfg">Guardar parámetros</button><button class="btn ghost" type="button" id="copiarCfg">Copiar configuración</button><button class="btn ghost" type="button" id="restaurarCfg">Restaurar valores del caso</button></div>
+  <div class="field"><label>Pegar configuración</label><textarea id="pegarCfg" class="mono"></textarea><button class="btn ghost" type="button" id="aplicarCfg">Aplicar</button></div>`;
+}
+function facConexion() {
+  return `<p class="sub">Conecta exclusivamente las respuestas del Caso C con su propia hoja de Google Sheets. No se consultan ni importan datos de A/B.</p>
+  <div class="field"><label>URL del Web App de Google Apps Script</label><input type="text" id="sheetUrl" value="${esc(CONN.sheetUrl)}" placeholder="https://script.google.com/macros/s/…/exec"></div>
+  <div class="field"><label>Clave compartida (la misma que en el script)</label><input type="text" id="clave" value="${esc(CONN.clave)}"></div>
+  <div class="row"><button class="btn" type="button" id="guardarConn">Guardar y probar</button><span class="small">Eventos en cola: ${queue.length}</span></div>
+  <div class="note warn">Por seguridad, la vista previa publicada en Claude no puede enviar ni leer datos de Google. El registro funciona con el archivo HTML abierto en el navegador o alojado en un sitio web.</div>`;
+}
+function facMesa() {
+  const opts = Object.keys(CARTAS).filter(k => k !== 'agua');
+  return `<div class="row"><button class="btn ghost" type="button" id="irRonda">Desbloquear todas las rondas</button><button class="btn ghost" type="button" id="refMesa">Usar el punto de partida común en esta mesa</button><button class="btn ghost" type="button" id="reiniciar">Reiniciar esta mesa</button></div>
+  <div class="field" style="margin-top:12px"><label>Cambiar la carta de esta mesa (actual: ${ST.carta.id ? esc(CARTAS[ST.carta.id].titulo) : '—'}; según reglas: ${ST.d.datos && ST.d.familias ? esc(CARTAS[asignarCarta(ST.d)].titulo) : '—'})</label>
+  <div class="row"><select id="cartaForzada">${opts.map(k => `<option value="${k}" ${ST.carta.id === k ? 'selected' : ''}>${esc(CARTAS[k].titulo)}</option>`).join('')}</select><button class="btn ghost" type="button" id="aplicarCarta">Aplicar carta</button></div></div>
+  <div class="small" style="margin-top:10px">Mesa: <b>${esc(ST.mesa || '—')}</b> · ronda ${ST.ronda}</div>
+  <h3 style="margin-top:12px">Estado actual</h3><textarea class="mono" style="min-height:220px" readonly>${esc(JSON.stringify(estadoFinal(), null, 2))}</textarea>`;
+}
+function bindFac() {
+  const on = (id, f) => { const el = $(id); if (el) el.onclick = f; };
+  on('guardarCfg', () => {
+    CFG.modoPartida = 'comun';
+    document.querySelectorAll('[data-cfg]').forEach(i => { CFG[i.dataset.cfg] = +i.value; });
+    document.querySelectorAll('[data-alt-cfg]').forEach(i => { const [k, f] = i.dataset.altCfg.split('.'); CFG.alts[k][f] = +i.value; });
+    store.set('andinaC.cfg', CFG); abrirFacilitador();
+  });
+  on('copiarCfg', () => copiar(JSON.stringify(CFG)));
+  on('restaurarCfg', () => { CFG = clone(DEFAULT_CFG); store.del('andinaC.cfg'); abrirFacilitador(); });
+  on('aplicarCfg', () => { try { CFG = deepMerge(DEFAULT_CFG, JSON.parse($('pegarCfg').value)); CFG.modoPartida = 'comun'; store.set('andinaC.cfg', CFG); abrirFacilitador(); } catch (e) { $('pegarCfg').value = 'Texto no válido'; } });
+  on('guardarConn', () => { CONN.sheetUrl = $('sheetUrl').value.trim(); CONN.clave = $('clave').value.trim(); store.set('andinaC.conn', CONN); enviar('prueba_conexion'); abrirFacilitador(); });
+  on('cargarMesas', async () => {
+    $('mesasMsg').textContent = 'Cargando…';
+    try { const r = await fetch(CONN.sheetUrl + (CONN.sheetUrl.includes('?') ? '&' : '?') + 'clave=' + encodeURIComponent(CONN.clave) + '&sesion=C'); const data = await r.json();
+      $('tablaMesas').innerHTML = tablaMesas(Array.isArray(data) ? data : []); $('mesasMsg').textContent = (Array.isArray(data) ? data.length : 0) + ' mesas'; }
+    catch (e) { $('mesasMsg').textContent = 'No se pudo leer la hoja. Revisen la URL y que el Web App sea accesible para cualquiera.'; }
+  });
+  on('verPegados', () => {
+    const raw = $('pegarEstados').value.trim(); let list = [];
+    try { const v = JSON.parse(raw); list = Array.isArray(v) ? v : [v]; } catch (e) { list = raw.split('\n').filter(Boolean).map(l => { try { return JSON.parse(l); } catch (x) { return null; } }).filter(Boolean); }
+    $('tablaMesas').innerHTML = tablaMesas(list.map(x => x.estado || x));
+  });
+  on('irRonda', () => { ST.max = 5; save(); abrirFacilitador(); });
+  on('refMesa', () => { ST.start = puntoComun(CFG); log('Facilitador: punto de partida común'); save(); abrirFacilitador(); });
+  on('aplicarCarta', () => { const k = $('cartaForzada').value; ST.carta = { id: k, ops: {}, detener: false, agua: null, aguaOn: false, vista: true, forzada: true }; ST.calc.r3 = null; ST.ratif.r3 = {}; log('Facilitador cambió la carta: ' + k); save(); abrirFacilitador(); });
+  on('reiniciar', function () { if (this.dataset.c !== '1') { this.dataset.c = '1'; this.textContent = 'Confirmar reinicio'; return; } ST = estadoNuevo(); save(); $('layer').innerHTML = ''; render(); });
+}
+
+render(); flush();
+})();
+
+</script>
+</body>
+</html>
